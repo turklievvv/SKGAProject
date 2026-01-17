@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SKGA</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="full_name_text">Full Name</string>
+    <string name="full_name_error_text">Напишите ФИО</string>
+    <string name="fio_text">ФИО</string>
+    <string name="group_error_text">Напишите группу</string>
+    <string name="email_error_text">Напишите email</string>
+    <string name="phone_error_text">Напишите номер</string>
+    <string name="password_blank_error_text">Придумайте пароль</string>
+    <string name="password_repeat_error">Пароли не совпадают</string>
+    <string name="password_correct_error">Пароль минимум 6 символов (a-z)</string>
+    <string name="email_correct_error">Введите корректный email</string>
+    <string name="group_correct_error">Выберите группу из списка</string>
+    <string name="phone_correct_error">Введите корректный номер телефона</string>
+    <string name="login_or_password_correct_error">Неправильный логин или пароль</string>
+    <string name="login_or_password_blank">Введите логин и пароль</string>
+
+</resources>

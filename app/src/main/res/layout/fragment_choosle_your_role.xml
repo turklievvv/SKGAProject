@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ChooseYourRoleActivity">
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/userTypeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dekanRoleButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_marginStart="20dp"
+            android:text="Я декан"
+            android:textColor="@color/toggle_button_text"
+            app:backgroundTint="@color/toggle_button_bg"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/teacherRoleButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/red" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/teacherRoleButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Я учитель"
+            android:textColor="@color/toggle_button_text"
+            app:backgroundTint="@color/toggle_button_bg"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/studentRoleButton"
+            app:layout_constraintStart_toEndOf="@id/dekanRoleButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/red" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/studentRoleButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_marginEnd="20dp"
+            android:text="Я студент"
+            android:textColor="@color/toggle_button_text"
+            app:backgroundTint="@color/toggle_button_bg"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/teacherRoleButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/red" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continueButton"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/red"
+        android:text="Продолжить"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/backButton"
+        app:layout_constraintTop_toBottomOf="@id/userTypeGroup"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:paddingStart="80dp"
+        android:text="назад"
+        android:textColor="@color/red"
+        app:icon="@drawable/back_icon"
+        app:iconTint="@color/red"
+        app:layout_constraintEnd_toStartOf="@id/continueButton"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userTypeGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

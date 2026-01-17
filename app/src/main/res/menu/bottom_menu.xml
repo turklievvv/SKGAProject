@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_screen"
+        android:icon="@drawable/home_icon"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/chat_screen"
+        android:icon="@drawable/chat_icon"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/schedule_screen"
+        android:icon="@drawable/opened_book_icon"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/statistic_screen"
+        android:icon="@drawable/statictic_icon"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/profile_screen"
+        android:icon="@drawable/account_cicrle_icon"
+        android:iconTint="@color/black"/>
+</menu>
