@@ -5,66 +5,59 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import data.GroupsAppDatabase
 import data.StudentRepositoryImpl
-import domain.entity.StudentItem
-import domain.usecases.AddNewGroupUseCase
-import domain.usecases.GetUserByLoginUseCase
+import domain.usecases.forApp.SignInUseCase
 import kotlinx.coroutines.launch
-import java.security.MessageDigest
-import kotlin.math.log
 
 class LogInViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = StudentRepositoryImpl(application)
-    private val getUserByLoginUseCase = GetUserByLoginUseCase(repository)
 
-    private val _errorLogin = MutableLiveData<Boolean?>(null)
-    val errorLogin: LiveData<Boolean?> get() = _errorLogin
+    private val login = SignInUseCase(repository)
 
-    private val _errorBlankLoginPassword = MutableLiveData<Boolean?>(null)
-    val errorBlankLoginPassword: LiveData<Boolean?> get() = _errorBlankLoginPassword
+    private val _errorLogin = MutableLiveData<Boolean>(null)
+    val errorLogin: LiveData<Boolean> get() = _errorLogin
+
+    private val _errorBlankLoginPassword = MutableLiveData<Boolean>(null)
+    val errorBlankLoginPassword: LiveData<Boolean> get() = _errorBlankLoginPassword
 
     private val _loginSuccess = MutableLiveData<Boolean>()
     val loginSuccess: LiveData<Boolean> get() = _loginSuccess
 
-    fun login(login: String, password: String) {
-        viewModelScope.launch {
-            val user = getUserByLoginUseCase.getUserByLogin(login.trim())
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
 
-            if (validateInput(login, password, user)) {
-                _loginSuccess.postValue(true)
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
+
+    fun login(email: String, pass: String) {
+        viewModelScope.launch {
+            if (validateInput(email, pass)) {
+                _loading.value = true
+                val result = login.login(email, pass) // Вызывает репозиторий
+                if (result.isSuccess) {
+                    _loginSuccess.value = true // Всё уже сохранено в DataStore!
             } else {
-                _loginSuccess.postValue(false)
+                    _errorMessage.value = "Ошибка: ${result.exceptionOrNull()?.message}"
+            }
+                _loading.value = false
             }
         }
     }
 
-    private fun validateInput(login: String, password: String, user: StudentItem?): Boolean {
+    private fun validateInput(login: String, password: String): Boolean {
         var result = true
 
         if (login.isBlank() || password.isBlank()) {
             _errorBlankLoginPassword.postValue(true)
             result = false
         }
-
-        if (user == null || user.password != hashPassword(password)) {
-            _errorLogin.postValue(true)
-            result = false
-        }
-
         return result
     }
 
     fun reserError(){
         _errorBlankLoginPassword.value = false
         _errorLogin.value = false
-    }
-
-    private fun hashPassword(password: String): String {
-        val md = MessageDigest.getInstance("SHA-256")
-        return md.digest(password.toByteArray())
-            .joinToString("") { "%02x".format(it) }
     }
 }
 

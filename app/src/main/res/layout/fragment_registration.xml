@@ -2,7 +2,7 @@
 <layout>
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.example.skga.presentation.RegistrationViewModel" />
@@ -61,6 +61,7 @@
                     app:boxStrokeWidth="0dp"
                     app:errorCorrectEmail="@{viewModel.errorInputCorrectEmail}"
                     app:errorInputEmail="@{viewModel.errorInputEmail}"
+                    app:isUserExists="@{viewModel.isUserExists()}"
                     app:hintTextColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/tiPhone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -98,6 +99,7 @@
                     app:boxStrokeWidth="0dp"
                     app:errorCorrectPhone="@{viewModel.errorInputCorrectPhone}"
                     app:errorInputPhone="@{viewModel.errorInputPhone}"
+                    app:isUserExists="@{viewModel.isUserExists()}"
                     app:hintTextColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/tiPassword"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +138,7 @@
                     app:errorInputFullName="@{viewModel.errorInputFullName}"
                     app:hintTextColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/tiGroup"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tiFaculties"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/logInText"
                     app:layout_constraintVertical_chainStyle="packed"
@@ -155,10 +157,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tiGroup"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="10dp"
                     android:hint="Group"
                     app:boxBackgroundColor="@color/gray"
                     app:boxBackgroundMode="filled"
@@ -172,15 +174,53 @@
                     app:errorInputGroup="@{viewModel.errorInputGroup}"
                     app:hintTextColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/tiEmail"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tiFaculties"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tiUsername"
                     app:startIconTint="@color/black">
+
 
                     <AutoCompleteTextView
                         android:id="@+id/etGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:completionThreshold="1"
+                        android:inputType="textAutoComplete"
+                        android:padding="12dp"
+                        android:paddingStart="20dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiFaculties"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:hint="Faculties"
+                    app:boxBackgroundColor="@color/gray"
+                    app:boxBackgroundMode="filled"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxStrokeColor="@android:color/transparent"
+                    app:errorCorrectFaculties="@{viewModel.errorInputCorrectFaculties}"
+                    app:errorInputFaculties="@{viewModel.errorInputFaculties}"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextColor="@color/white"
+                    app:layout_constraintBottom_toTopOf="@id/tiEmail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tiGroup"
+                    app:layout_constraintTop_toBottomOf="@id/tiUsername"
+                    app:startIconTint="@color/black">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/etFaculties"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:completionThreshold="1"
                         android:inputType="textAutoComplete"
                         android:padding="12dp"
                         android:paddingStart="20dp"
@@ -303,6 +343,25 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="20dp"
+            android:background="#40000000"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:indeterminateTint="@android:color/white" />
+
+        </FrameLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,25 +1,18 @@
 package domain.repository
 
-import androidx.lifecycle.LiveData
-import domain.entity.GroupsItem
+import domain.entity.AuthResult
+import domain.entity.FacultyItem
 import domain.entity.StudentItem
+import domain.entity.StudentProfile
 
 interface StudentRepository {
 
-    suspend fun addStudentItem(studentItem: StudentItem)
 
-    suspend fun deleteStudentItem(studentItem: StudentItem)
+    suspend fun getGroups(query: String): List<String>
 
-    suspend fun editStudentItem(studentItem: StudentItem)
+    suspend fun getFaculties(): List<FacultyItem>
 
-    suspend fun getStudent(studentId: Int): StudentItem
+    suspend fun signUp(studentItem: StudentItem): Result<Unit>
 
-    suspend fun getStudentList(): List<StudentItem>
-
-    suspend fun getUserByLogin(emailOrPhone: String): StudentItem?
-
-    suspend fun addNewGroup(group: GroupsItem)
-
-    suspend fun getGroupsStartingWith(query: String): List<String>
-
+    suspend fun login(email: String, password: String): Result<StudentProfile>
 }

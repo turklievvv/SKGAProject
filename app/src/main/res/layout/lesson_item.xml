@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/queueNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lessonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Машинное обучение"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/queueNumber"
+            app:layout_constraintStart_toEndOf="@id/queueNumber"
+            app:layout_constraintTop_toTopOf="@id/queueNumber" />
+
+        <TextView
+            android:id="@+id/teacherName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="Эркенова А.А."
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/queueNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/queueNumber" />
+
+
+        <TextView
+            android:id="@+id/lessonStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="9:00"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/tire"
+            app:layout_constraintStart_toStartOf="@id/lessonName"
+            app:layout_constraintTop_toBottomOf="@id/queueNumber" />
+
+        <TextView
+            android:id="@+id/tire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="-"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/lessonEndTime"
+            app:layout_constraintStart_toEndOf="@id/lessonStartTime"
+            app:layout_constraintTop_toBottomOf="@id/queueNumber" />
+
+        <TextView
+            android:id="@+id/lessonEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="10:30"
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@id/tire"
+            app:layout_constraintTop_toBottomOf="@id/queueNumber" />
+
+        <TextView
+            android:id="@+id/lessonRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="5dp"
+            android:text="245 каб."
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@id/lessonEndTime"
+            app:layout_constraintTop_toBottomOf="@id/queueNumber" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

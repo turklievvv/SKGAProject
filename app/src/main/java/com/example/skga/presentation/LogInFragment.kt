@@ -1,6 +1,7 @@
 package com.example.skga.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,10 +32,20 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(LogInViewModel::class.java)
-        viewModel.loginSuccess.observe(viewLifecycleOwner) { success ->
-            if (success) {
-                startActivity(MainMenuActivity.newIntent(requireContext()))
+        viewModel.loginSuccess.observe(viewLifecycleOwner) {
+            if (it) {
+                startActivity(
+                    MainMenuActivity.newIntent(
+                        requireContext()
+                    )
+                )
+                requireActivity().finish(
+                )
+                requireActivity().finish()
             }
+        }
+        viewModel.errorMessage.observe(viewLifecycleOwner){
+            Log.d("Error message", it)
         }
         bindingViews()
         resetError()
@@ -46,9 +57,10 @@ class LogInFragment : Fragment() {
         }
 
         binding.logInButton.setOnClickListener {
-            val login = binding.etEmail.text.toString()
-            val password = binding.etPassword.text.toString()
-            viewModel.login(login, password)
+            viewModel.login(
+                binding.etEmail.text.toString(),
+                binding.etPassword.text.toString()
+            )
         }
 
         binding.viewModel = viewModel

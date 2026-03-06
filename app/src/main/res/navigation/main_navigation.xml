@@ -11,13 +11,17 @@
         <action
             android:id="@+id/action_logInFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_mainMenuActivity"
+            app:destination="@id/mainMenuActivity" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.skga.presentation.RegistrationFragment"
-        android:label="RegistrationFragment" >
-        <action
-            android:id="@+id/action_registrationFragment_to_logInFragment"
-            app:destination="@id/logInFragment" />
-    </fragment>
+        android:label="RegistrationFragment" />
+    <activity
+        android:id="@+id/mainMenuActivity"
+        android:name="com.example.skga.presentation.MainMenuActivity"
+        android:label="activity_main_menu"
+        tools:layout="@layout/activity_main_menu" />
 </navigation>

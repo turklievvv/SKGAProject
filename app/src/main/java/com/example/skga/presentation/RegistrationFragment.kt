@@ -32,48 +32,50 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
         addTextChangeListenersForGroup()
+        addTExtChangeListenerForFaculties()
         bindingViews()
         resetError()
 
     }
 
-    private fun bindingViews(){
+    private fun bindingViews() {
         binding.registrationButton.setOnClickListener {
             viewModel.register(
-                returnStudentItemFromRegistration(),
-                binding.etPasswordRepeat.text.toString()
+                returnStudentItemFromRegistration(), binding.etPasswordRepeat.text.toString()
             )
-            viewModel.registrationSucces.observe(viewLifecycleOwner){success ->
-                if (success)
-                    findNavController().popBackStack()
+            viewModel.isRegistrationSuccess.observe(viewLifecycleOwner) { success ->
+                if (success) findNavController().popBackStack()
             }
         }
         binding.alreadyHaveAccountButton.setOnClickListener {
-            findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToLogInFragment())
+            findNavController().popBackStack()
         }
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun addTextChangeListenersForGroup() {
-        val autoCompleteTextView = binding.etGroup
+        val autoCompleteTextViewGroup = binding.etGroup
         val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_dropdown_item_1line,
-            mutableListOf<String>()
+            requireContext(), android.R.layout.simple_dropdown_item_1line, mutableListOf<String>()
         )
 
-        autoCompleteTextView.setAdapter(adapter)
-        autoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        autoCompleteTextViewGroup.setAdapter(adapter)
+        autoCompleteTextViewGroup.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                val query = s.toString()
+                viewModel.loadInitData(query)
+            }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
-                viewModel.loadGroups(query)
+                viewModel.loadInitData(query)
             }
 
             override fun afterTextChanged(s: Editable?) {}
 
         })
+
         viewModel.groupsListLiveData.observe(viewLifecycleOwner) { groups ->
             adapter.clear()
             adapter.addAll(groups)
@@ -81,23 +83,49 @@ class RegistrationFragment : Fragment() {
         }
     }
 
+    private fun addTExtChangeListenerForFaculties() {
+        val autoCompleteTextViewFaculties = binding.etFaculties
+        val adapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_dropdown_item_1line, mutableListOf<String>()
+        )
+        autoCompleteTextViewFaculties.setAdapter(adapter)
+        autoCompleteTextViewFaculties.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                val query = s.toString()
+                viewModel.loadInitData(query)
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString()
+                viewModel.loadInitData(query)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        viewModel.facultyListLiveData.observe(viewLifecycleOwner) { faculties ->
+            adapter.clear()
+            adapter.addAll(faculties)
+            adapter.filter.filter(null)
+        }
+    }
+
     private fun resetError() {
         binding.etUsername.doOnTextChanged { _, _, _, _ ->
             viewModel.resetErrorFullName()
         }
-        binding.etPassword.doOnTextChanged  { _, _, _, _ ->
+        binding.etPassword.doOnTextChanged { _, _, _, _ ->
             viewModel.resetErrorPassword()
         }
-        binding.etPasswordRepeat.doOnTextChanged  { _, _, _, _ ->
+        binding.etPasswordRepeat.doOnTextChanged { _, _, _, _ ->
             viewModel.resetErrorRepeatPassword()
         }
-        binding.etEmail.doOnTextChanged  { _, _, _, _ ->
+        binding.etEmail.doOnTextChanged { _, _, _, _ ->
             viewModel.resetErrorEmail()
         }
-        binding.etPhone.doOnTextChanged  { _, _, _, _ ->
+        binding.etPhone.doOnTextChanged { _, _, _, _ ->
             viewModel.resetErrorPhone()
         }
-        binding.etGroup.doOnTextChanged  { _, _, _, _ ->
+        binding.etGroup.doOnTextChanged { _, _, _, _ ->
             viewModel.resetErrorGroup()
         }
 
@@ -107,12 +135,13 @@ class RegistrationFragment : Fragment() {
         val (lastName, firstName, middleName) = parseFio(binding.etUsername.text.toString())
         return StudentItem(
             lastName = lastName,
-            surName = firstName,
+            firstName = firstName,
             middleName = middleName,
             email = binding.etEmail.text.toString(),
             group = binding.etGroup.text.toString(),
             phone = binding.etPhone.text.toString(),
-            password = binding.etPassword.text.toString()
+            password = binding.etPassword.text.toString(),
+            faculties = binding.etFaculties.text.toString()
         )
 
     }

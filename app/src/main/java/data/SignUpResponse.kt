@@ -1,0 +1,8 @@
+package data
+
+import com.google.gson.annotations.SerializedName
+
+data class SignUpResponse(
+    @SerializedName("access_token") val accessToken: String,
+    @SerializedName("user") val user: UserData
+)

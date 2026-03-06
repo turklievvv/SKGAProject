@@ -94,6 +94,26 @@ fun bindErrorCorrectGroup(textInputLayout: TextInputLayout,isError: Boolean){
     textInputLayout.error = message
 }
 
+@BindingAdapter("errorCorrectFaculties")
+fun bindErrorCorrectFaculties(textInputLayout: TextInputLayout,isError: Boolean){
+    val message = if (isError) {
+        textInputLayout.context.getString(R.string.faculties_correct_error)
+    } else {
+        null
+    }
+    textInputLayout.error = message
+}
+
+@BindingAdapter("errorInputFaculties")
+fun bindErrorInputFaculties(textInputLayout: TextInputLayout,isError: Boolean){
+    val message = if (isError) {
+        textInputLayout.context.getString(R.string.faculties_correct_error)
+    } else {
+        null
+    }
+    textInputLayout.error = message
+}
+
 @BindingAdapter("errorCorrectPhone")
 fun bindErrorCorrectPhone(textInputLayout: TextInputLayout,isError: Boolean){
     val message = if (isError) {
@@ -117,6 +137,16 @@ fun bindErrorLoginOrPassword(textInputLayout: TextInputLayout,isError: Boolean){
 fun bindSsBlankLoginOrPassword(textInputLayout: TextInputLayout,isError: Boolean){
     val message = if (isError) {
         textInputLayout.context.getString(R.string.login_or_password_blank)
+    } else {
+        null
+    }
+    textInputLayout.error = message
+}
+
+@BindingAdapter("isUserExists")
+fun bindIsUserExists(textInputLayout: TextInputLayout,isError: Boolean){
+    val message = if (isError) {
+        textInputLayout.context.getString(R.string.email_or_phone_already_registered)
     } else {
         null
     }
