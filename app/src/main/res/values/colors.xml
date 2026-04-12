@@ -5,5 +5,12 @@
     <color name="dark_gray">#4A4A4A</color>
     <color name="gray">#BDBDBD</color>
     <color name="red">#9B0000</color>
+    <color name="red_alpha">#9E9B0000</color>
+    <color name="red_alpha2">#509B0000</color>
+    <color name="yellow">#FFC107</color>
+    <color name="yellow_alpha">#32FFC107</color>
+    <color name="purple">#673AB7</color>
+    <color name="purple_alpha">#3C673AB7</color>
+<color name="gray_alpha">#3B666666</color>
 
 </resources>

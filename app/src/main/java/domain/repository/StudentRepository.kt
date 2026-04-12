@@ -8,7 +8,7 @@ import domain.entity.StudentProfile
 interface StudentRepository {
 
 
-    suspend fun getGroups(query: String): List<String>
+    suspend fun getGroups(): List<String>
 
     suspend fun getFaculties(): List<FacultyItem>
 

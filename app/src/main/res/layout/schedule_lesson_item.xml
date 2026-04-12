@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nearestEventCV1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="20dp"
+    app:cardCornerRadius="10dp"
+    app:layout_constraintTop_toBottomOf="@id/nearestEvents">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardColorStripe5"
+            android:layout_width="4dp"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@color/red"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/scheduleLessonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:text="Высшая математика"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/eventDateIc"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/calendar_ic"
+            android:tint="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/eventRoomIc"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@id/scheduleLessonName"
+            app:layout_constraintTop_toBottomOf="@id/scheduleLessonName" />
+
+        <TextView
+            android:id="@+id/scheduleLessonTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="9:00-10:40"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/eventDateIc"
+            app:layout_constraintStart_toEndOf="@id/eventDateIc"
+            app:layout_constraintTop_toTopOf="@id/eventDateIc" />
+
+        <ImageView
+            android:id="@+id/eventRoomIc"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/location_ic"
+            android:tint="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/eventAudienceIc"
+            app:layout_constraintStart_toStartOf="@id/eventDateIc"
+            app:layout_constraintTop_toBottomOf="@id/eventDateIc" />
+
+        <TextView
+            android:id="@+id/scheduleLessonRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Кабинет 251"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/eventRoomIc"
+            app:layout_constraintStart_toEndOf="@id/eventRoomIc"
+            app:layout_constraintTop_toTopOf="@id/eventRoomIc" />
+
+        <ImageView
+            android:id="@+id/eventAudienceIc"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/groups_ic"
+            android:tint="@color/black"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/eventRoomIc"
+            app:layout_constraintTop_toBottomOf="@id/eventRoomIc" />
+
+        <TextView
+            android:id="@+id/scheduleGroupName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Группа ПМИ-221"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/eventAudienceIc"
+            app:layout_constraintStart_toEndOf="@id/eventAudienceIc"
+            app:layout_constraintTop_toTopOf="@id/eventAudienceIc" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

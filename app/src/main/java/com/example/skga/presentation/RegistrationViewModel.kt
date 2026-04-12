@@ -6,13 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import data.StudentRepositoryImpl
+import data.local.StudentRepositoryImpl
 import domain.entity.StudentItem
 import domain.usecases.forApp.GetFacultiesUseCase
 import domain.usecases.forApp.GetGroupsUseCase
 import domain.usecases.forApp.SignUpUseCase
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -138,24 +137,15 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     }
 
 
-    fun loadInitData(query: String) {
-        if (query.length < 1) return
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
-            delay(500)
-            try {
-                allGroups = getGroups.getGroups(query)
-                _groupsListLiveData.value = allGroups
-
-                if (allFaculties.isEmpty()) {
-                    allFaculties = getFacultiesUseCase.getFaculties().map { it.name }
-                    _facultyListLiveData.value = allFaculties
+    fun loadInitData() {
+        viewModelScope.launch {
+            allGroups = getGroups.getGroups()
+            _groupsListLiveData.value = allGroups
+            allFaculties = getFacultiesUseCase.getFaculties().map { it.name }
+            _facultyListLiveData.value = allFaculties
                 }
-            } catch (e: Exception) {
-                // Если запрос реально отменили, это упадет сюда, просто игнорируй
-            }
-        }
     }
+
 
     private fun parseStudent(studentItem: StudentItem?): StudentItem {
         val parsedStudentItem = StudentItem(
@@ -202,11 +192,11 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             _errorInputFullName.value = true
             result = false
         }
-        if (studentItem.group.isBlank()) {
+        if (studentItem.group?.isBlank() ?: true) {
             _errorInputGroup.value = true
             result = false
         }
-        if (studentItem.faculties.isBlank()) {
+        if (studentItem.faculties?.isBlank() ?: true) {
             _errorInputFaculties.value = true
             result = false
         }

@@ -1,5 +1,8 @@
-package data
+package data.local
 
+import data.dtoEntity.FacultyDto
+import data.dtoEntity.ScheduleDto
+import data.dtoEntity.StudentProfileDto
 import domain.entity.FacultyItem
 import domain.entity.ScheduleItem
 import domain.entity.StudentItem
@@ -26,7 +29,9 @@ class Mapper {
             facultyId = facultyId,
             groupId = entity.group,
             role = "student",
-            phone = entity.phone
+            phone = entity.phone,
+            avatar = null,
+            isAdmin = false
         )
     }
 
@@ -39,7 +44,10 @@ class Mapper {
                 lessonTeacher = scheduleDto.teacherName,
                 lessonEndTime = scheduleDto.lessonEndTime,
                 lessonStartTime = scheduleDto.lessonStartTime,
-                dayOfWeek = scheduleDto.dayOfWeek
+                dayOfWeek = scheduleDto.dayOfWeek,
+                weekType = scheduleDto.weekType,
+                subGroup = scheduleDto.subGroup,
+                group = scheduleDto.group
             )
         }
     }

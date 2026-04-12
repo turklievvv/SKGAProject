@@ -1,0 +1,1284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainMenuFragmentAdmin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".presentation.adminPage.mainMenu.MainMenuFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textFast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Быстрый доступ"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/scheduleBtn"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="30dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toStartOf="@id/groupsBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textFast">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/red_alpha2"
+                    android:scaleType="center"
+                    android:src="@drawable/calendar_ic"
+                    app:shapeAppearanceOverlay="@style/SquareCorner"
+                    app:tint="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Расписание"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Управление расписанием"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/groupsBtn"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="30dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/scheduleBtn"
+            app:layout_constraintTop_toBottomOf="@id/textFast">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/yellow_alpha"
+                    android:scaleType="center"
+                    android:src="@drawable/groups_ic"
+                    app:shapeAppearanceOverlay="@style/SquareCorner"
+                    app:tint="@color/yellow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Группы"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Управление группами"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/teachersBtn"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toStartOf="@id/eventsBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scheduleBtn">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/purple_alpha"
+                    android:scaleType="center"
+                    android:src="@drawable/teachers_ic"
+                    app:shapeAppearanceOverlay="@style/SquareCorner"
+                    app:tint="@color/purple" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Преподаватели"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Управление кадрами"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/eventsBtn"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/teachersBtn"
+            app:layout_constraintTop_toBottomOf="@id/scheduleBtn">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/red_alpha2"
+                    android:scaleType="center"
+                    android:src="@drawable/events_ic"
+                    app:shapeAppearanceOverlay="@style/SquareCorner"
+                    app:tint="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="События"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Управление событиями"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/notificationTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="Уведомления"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/teachersBtn" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/notificationCV1"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/notificationTV">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/notificationIV1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/red_alpha2"
+                    android:scaleType="center"
+                    android:src="@drawable/events_ic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/SquareCorner"
+                    app:tint="@color/red" />
+
+                <TextView
+                    android:id="@+id/notificationTV1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Требуется утверждение"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/notificationIV1"
+                    app:layout_constraintTop_toTopOf="@id/notificationIV1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Расписание группы ПМИ-221 ожидает подтверждения"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/notificationTV1"
+                    app:layout_constraintTop_toBottomOf="@id/notificationTV1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/notificationCV2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/notificationCV1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/notificationIV2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/red_alpha2"
+                    android:scaleType="center"
+                    android:src="@drawable/events_ic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/SquareCorner"
+                    app:tint="@color/red" />
+
+                <TextView
+                    android:id="@+id/notificationTV2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Требуется утверждение"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/notificationIV2"
+                    app:layout_constraintTop_toTopOf="@id/notificationIV2" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Расписание группы ПМИ-221 ожидает подтверждения"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/notificationTV2"
+                    app:layout_constraintTop_toBottomOf="@id/notificationTV2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/notificationCV3"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/notificationCV2">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/notificationIV3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/red_alpha2"
+                    android:scaleType="center"
+                    android:src="@drawable/events_ic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/SquareCorner"
+                    app:tint="@color/red" />
+
+                <TextView
+                    android:id="@+id/notificationTV3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Требуется утверждение"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/notificationIV3"
+                    app:layout_constraintTop_toTopOf="@id/notificationIV3" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Расписание группы ПМИ-221 ожидает подтверждения"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/notificationTV3"
+                    app:layout_constraintTop_toBottomOf="@id/notificationTV3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/nearestLessonsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="Ближайшие пары"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notificationCV3" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nearestLessonsCV1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/nearestLessonsTV">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardColorStripe"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/red"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lessonName1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Высшая математика"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/groupName1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="ПМИ-221"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonName1"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName1" />
+
+                <ImageView
+                    android:id="@+id/timeIc2"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/clock_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonTime1"
+                    app:layout_constraintEnd_toStartOf="@id/lessonTime1"
+                    app:layout_constraintTop_toTopOf="@id/lessonTime1"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/lessonTime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="09:00 - 10:30"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomIc"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV1" />
+
+                <ImageView
+                    android:id="@+id/lessonRoomIc"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/location_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonRoomTV1"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomTV1"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV1"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/lessonRoomTV1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="5dp"
+                    android:text="245 кабинет"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName1" />
+
+                <ImageView
+                    android:id="@+id/teacherNameIcon1"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/teachers_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/teacherNameTv1"
+                    app:layout_constraintEnd_toStartOf="@id/teacherNameTv1"
+                    app:layout_constraintTop_toTopOf="@id/teacherNameTv1"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/teacherNameTv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="Эдиев Д.М."
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonRoomTV1"
+                    app:layout_constraintTop_toBottomOf="@id/lessonRoomTV1" />
+
+                <ImageView
+                    android:id="@+id/studentCountIc"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/groups_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/studentCountTV1"
+                    app:layout_constraintEnd_toStartOf="@id/studentCountTV1"
+                    app:layout_constraintTop_toTopOf="@id/studentCountTV1"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/studentCountTV1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="28 студентов"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonTime1"
+                    app:layout_constraintTop_toBottomOf="@id/lessonTime1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nearestLessonsCV2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/nearestLessonsCV1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardColorStripe1"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/purple"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lessonName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Высшая математика"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/groupName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="ПМИ-221"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonName2"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName2" />
+
+                <ImageView
+                    android:id="@+id/timeIc1"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/clock_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonTime2"
+                    app:layout_constraintEnd_toStartOf="@id/lessonTime2"
+                    app:layout_constraintTop_toTopOf="@id/lessonTime2"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/lessonTime2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="09:00 - 10:30"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomIc1"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV2" />
+
+                <ImageView
+                    android:id="@+id/lessonRoomIc1"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/location_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonRoomTV2"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomTV2"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV2"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/lessonRoomTV2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="245 кабинет"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName2" />
+
+                <ImageView
+                    android:id="@+id/teacherNameIcon2"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/teachers_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/teacherNameTv2"
+                    app:layout_constraintEnd_toStartOf="@id/teacherNameTv2"
+                    app:layout_constraintTop_toTopOf="@id/teacherNameTv2"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/teacherNameTv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="Эдиев Д.М."
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonRoomTV2"
+                    app:layout_constraintTop_toBottomOf="@id/lessonRoomTV2" />
+
+                <ImageView
+                    android:id="@+id/studentCountIc1"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/groups_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/studentCountTV2"
+                    app:layout_constraintEnd_toStartOf="@id/studentCountTV2"
+                    app:layout_constraintTop_toTopOf="@id/studentCountTV2"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/studentCountTV2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="28 студентов"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonTime2"
+                    app:layout_constraintTop_toBottomOf="@id/lessonTime2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nearestLessonsCV3"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/nearestLessonsCV2">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardColorStripe3"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/yellow"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lessonName3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Высшая математика"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/groupName3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="ПМИ-221"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonName3"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName3" />
+
+                <ImageView
+                    android:id="@+id/timeIc"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/clock_ic"
+                    android:tint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonTime3"
+                    app:layout_constraintEnd_toStartOf="@id/lessonTime3"
+                    app:layout_constraintTop_toTopOf="@id/lessonTime3"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/lessonTime3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="09:00 - 10:30"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomIc2"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV3" />
+
+                <ImageView
+                    android:id="@+id/lessonRoomIc2"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/location_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonRoomTV3"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomTV3"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV3"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/lessonRoomTV3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="5dp"
+                    android:text="245 кабинет"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName3" />
+
+                <ImageView
+                    android:id="@+id/teacherNameIcon"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/teachers_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/teacherNameTv3"
+                    app:layout_constraintEnd_toStartOf="@id/teacherNameTv3"
+                    app:layout_constraintTop_toTopOf="@id/teacherNameTv3"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/teacherNameTv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="Эдиев Д.М."
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonRoomTV3"
+                    app:layout_constraintTop_toBottomOf="@id/lessonRoomTV3" />
+
+                <ImageView
+                    android:id="@+id/studentCountIc2"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/groups_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/studentCountTV3"
+                    app:layout_constraintEnd_toStartOf="@id/studentCountTV3"
+                    app:layout_constraintTop_toTopOf="@id/studentCountTV3"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/studentCountTV3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="28 студентов"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonTime3"
+                    app:layout_constraintTop_toBottomOf="@id/lessonTime3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nearestLessonsCV4"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/nearestLessonsCV3">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardColorStripe4"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/red"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lessonName4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Высшая математика"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/groupName4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="ПМИ-221"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonName4"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName4" />
+
+                <ImageView
+                    android:id="@+id/timeIc3"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/clock_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonTime4"
+                    app:layout_constraintEnd_toStartOf="@id/lessonTime4"
+                    app:layout_constraintTop_toTopOf="@id/lessonTime4"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/lessonTime4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="09:00 - 10:30"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomIc3"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV4" />
+
+                <ImageView
+                    android:id="@+id/lessonRoomIc3"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/location_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/lessonRoomTV4"
+                    app:layout_constraintEnd_toStartOf="@id/lessonRoomTV4"
+                    app:layout_constraintTop_toTopOf="@id/lessonRoomTV4"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/lessonRoomTV4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
+                    android:text="245 кабинет"
+                    android:layout_marginTop="5dp"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lessonName4" />
+
+                <ImageView
+                    android:id="@+id/teacherNameIcon3"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/teachers_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/teacherNameTv4"
+                    app:layout_constraintEnd_toStartOf="@id/teacherNameTv4"
+                    app:layout_constraintTop_toTopOf="@id/teacherNameTv4"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/teacherNameTv4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="Эдиев Д.М."
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonRoomTV4"
+                    app:layout_constraintTop_toBottomOf="@id/lessonRoomTV4" />
+
+                <ImageView
+                    android:id="@+id/studentCountIc3"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/groups_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/studentCountTV4"
+                    app:layout_constraintEnd_toStartOf="@id/studentCountTV4"
+                    app:layout_constraintTop_toTopOf="@id/studentCountTV4"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/studentCountTV4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="28 студентов"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@id/lessonTime4"
+                    app:layout_constraintTop_toBottomOf="@id/lessonTime4" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/nearestEvents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="Предстоящие события"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nearestLessonsCV4" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nearestEventCV1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/nearestEvents">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardColorStripe5"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/yellow"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/scheduleLessonName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Экзамен : Высшая математика"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/eventDateIc"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/calendar_ic"
+                    app:layout_constraintStart_toStartOf="@id/scheduleLessonName"
+                    app:layout_constraintTop_toBottomOf="@id/scheduleLessonName"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventDate1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Завтра, 18:00"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventDateIc"
+                    app:layout_constraintStart_toEndOf="@id/eventDateIc"
+                    app:layout_constraintTop_toTopOf="@id/eventDateIc" />
+
+                <ImageView
+                    android:id="@+id/eventRoomIc"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/location_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventDateIc"
+                    app:layout_constraintTop_toBottomOf="@id/eventDateIc"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventRoom1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Кабинет 251"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventRoomIc"
+                    app:layout_constraintStart_toEndOf="@id/eventRoomIc"
+                    app:layout_constraintTop_toTopOf="@id/eventRoomIc" />
+
+                <ImageView
+                    android:id="@+id/eventAudienceIc"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/groups_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventRoomIc"
+                    app:layout_constraintTop_toBottomOf="@id/eventRoomIc"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventAudience1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Группа ПМИ-221"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventAudienceIc"
+                    app:layout_constraintStart_toEndOf="@id/eventAudienceIc"
+                    app:layout_constraintTop_toTopOf="@id/eventAudienceIc" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nearestEventCV2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/nearestEventCV1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardColorStripe6"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/red"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/eventName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Родительское собрание"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/eventDateIc3"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/calendar_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventName2"
+                    app:layout_constraintTop_toBottomOf="@id/eventName2"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventDate2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Завтра, 18:00"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventDateIc3"
+                    app:layout_constraintStart_toEndOf="@id/eventDateIc3"
+                    app:layout_constraintTop_toTopOf="@id/eventDateIc3" />
+
+                <ImageView
+                    android:id="@+id/eventRoomIc1"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/location_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventDateIc3"
+                    app:layout_constraintTop_toBottomOf="@id/eventDateIc3"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventRoom2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Кабинет 251"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventRoomIc1"
+                    app:layout_constraintStart_toEndOf="@id/eventRoomIc1"
+                    app:layout_constraintTop_toTopOf="@id/eventRoomIc1" />
+
+                <ImageView
+                    android:id="@+id/eventAudienceIc1"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/groups_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventRoomIc1"
+                    app:layout_constraintTop_toBottomOf="@id/eventRoomIc1"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventAudience1233"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Группа ПМИ-221"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventAudienceIc1"
+                    app:layout_constraintStart_toEndOf="@id/eventAudienceIc1"
+                    app:layout_constraintTop_toTopOf="@id/eventAudienceIc1" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nearestEventCV3"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/nearestEventCV2">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardColorStripe2"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/purple"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/eventName3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Высшая математика"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/eventDateIc4"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/calendar_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventName3"
+                    app:layout_constraintTop_toBottomOf="@id/eventName3"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventDate3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Завтра, 18:00"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventDateIc4"
+                    app:layout_constraintStart_toEndOf="@id/eventDateIc4"
+                    app:layout_constraintTop_toTopOf="@id/eventDateIc4" />
+
+                <ImageView
+                    android:id="@+id/eventRoomIc4"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/location_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventDateIc4"
+                    app:layout_constraintTop_toBottomOf="@id/eventDateIc4"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventRoom3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Кабинет 251"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventRoomIc4"
+                    app:layout_constraintStart_toEndOf="@id/eventRoomIc4"
+                    app:layout_constraintTop_toTopOf="@id/eventRoomIc4" />
+
+                <ImageView
+                    android:id="@+id/eventAudienceIc12"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/groups_ic"
+                    app:layout_constraintStart_toStartOf="@id/eventRoomIc4"
+                    app:layout_constraintTop_toBottomOf="@id/eventRoomIc4"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/eventAudience213"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Группа ПМИ-221"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/eventAudienceIc12"
+                    app:layout_constraintStart_toEndOf="@id/eventAudienceIc12"
+                    app:layout_constraintTop_toTopOf="@id/eventAudienceIc12" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

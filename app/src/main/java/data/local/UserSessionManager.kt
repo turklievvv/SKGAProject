@@ -1,11 +1,11 @@
 package data.local
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
-import domain.entity.StudentItem
 import domain.entity.StudentProfile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -18,6 +18,7 @@ class UserSessionManager(private val context: Context) {
 
     companion object {
         private val STUDENT_PROFILE_KEY = stringPreferencesKey("student_profile")
+        val AVATAR_URL = stringPreferencesKey("avatar_url")
     }
 
     // СОХРАНЕНИЕ: Берем твой StudentItem и превращаем в JSON-строку
@@ -39,10 +40,18 @@ class UserSessionManager(private val context: Context) {
             }
         }
 
+    suspend fun updateAvatarUrl(newUrl: String) {
+        context.dataStore.edit { prefs ->
+            prefs[AVATAR_URL] = newUrl
+            Log.d("SUPABASE_DEBUG","Загрузка $newUrl прошла успешно")
+        }
+    }
+
     // ВЫХОД: Очистка данных
     suspend fun clearSession() {
         context.dataStore.edit { preferences ->
             preferences.clear()
         }
+        }
     }
-}
+

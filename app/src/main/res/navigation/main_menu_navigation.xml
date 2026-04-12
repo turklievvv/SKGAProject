@@ -9,5 +9,36 @@
         android:id="@+id/homePageFragment"
         android:name="com.example.skga.presentation.homePage.HomePageFragment"
         android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" />
+        tools:layout="@layout/fragment_home_page" >
+        <action
+            android:id="@+id/action_homePageFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_scheduleFragment2"
+            app:destination="@id/scheduleFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.skga.presentation.profilePage.UserProfileFragment"
+        android:label="UserProfileFragment" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_scheduleFragment2"
+            app:destination="@id/scheduleFragment2" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleFragment2"
+        android:name="com.example.skga.presentation.schedulePage.ScheduleFragment"
+        android:label="fragment_schedule"
+        tools:layout="@layout/fragment_schedule" >
+        <action
+            android:id="@+id/action_scheduleFragment2_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment2_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
 </navigation>

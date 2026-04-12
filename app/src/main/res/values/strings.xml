@@ -18,5 +18,11 @@
     <string name="login_or_password_correct_error">Неправильный логин или пароль</string>
     <string name="login_or_password_blank">Введите логин и пароль</string>
     <string name="email_or_phone_already_registered">Уже зарегистрированы</string>
+    <string name="title_format">%1$s, %2$s%3$s</string>
+    <string name="week_type_numerator"> (Числ.)</string>
+    <string name="week_type_denominator"> (Знам.)</string>
+    <string name="week_type_always"></string>
+    <string name="no_lessons_on_date">На %1$s пар нет</string>
+    <string name="user_profile_name">%1$s %2$s</string>
 
 </resources>

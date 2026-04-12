@@ -7,5 +7,8 @@ data class ScheduleItem (
     val lessonEndTime: String,
     val lessonClassRoom: String,
     val lessonTeacher: String,
-    val dayOfWeek:Int
+    val dayOfWeek:Int,
+    val weekType: Int,
+    val subGroup:Int,
+    val group: String
 )

@@ -31,8 +31,9 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
-        addTextChangeListenersForGroup()
-        addTExtChangeListenerForFaculties()
+        viewModel.loadInitData()
+        addGroupAdapter()
+        addFacultiesAdapter()
         bindingViews()
         resetError()
 
@@ -54,28 +55,12 @@ class RegistrationFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private fun addTextChangeListenersForGroup() {
+    private fun addGroupAdapter() {
         val autoCompleteTextViewGroup = binding.etGroup
         val adapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_dropdown_item_1line, mutableListOf<String>()
         )
-
         autoCompleteTextViewGroup.setAdapter(adapter)
-        autoCompleteTextViewGroup.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                val query = s.toString()
-                viewModel.loadInitData(query)
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = s.toString()
-                viewModel.loadInitData(query)
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-
-        })
-
         viewModel.groupsListLiveData.observe(viewLifecycleOwner) { groups ->
             adapter.clear()
             adapter.addAll(groups)
@@ -83,25 +68,12 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun addTExtChangeListenerForFaculties() {
+    private fun addFacultiesAdapter() {
         val autoCompleteTextViewFaculties = binding.etFaculties
         val adapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_dropdown_item_1line, mutableListOf<String>()
         )
         autoCompleteTextViewFaculties.setAdapter(adapter)
-        autoCompleteTextViewFaculties.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                val query = s.toString()
-                viewModel.loadInitData(query)
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = s.toString()
-                viewModel.loadInitData(query)
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
         viewModel.facultyListLiveData.observe(viewLifecycleOwner) { faculties ->
             adapter.clear()
             adapter.addAll(faculties)

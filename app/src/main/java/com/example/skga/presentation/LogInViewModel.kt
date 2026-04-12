@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import data.StudentRepositoryImpl
+import data.local.StudentRepositoryImpl
 import domain.usecases.forApp.SignInUseCase
 import kotlinx.coroutines.launch
 
@@ -36,7 +36,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
                 _loading.value = true
                 val result = login.login(email, pass) // Вызывает репозиторий
                 if (result.isSuccess) {
-                    _loginSuccess.value = true // Всё уже сохранено в DataStore!
+                    _loginSuccess.value = true
             } else {
                     _errorMessage.value = "Ошибка: ${result.exceptionOrNull()?.message}"
             }

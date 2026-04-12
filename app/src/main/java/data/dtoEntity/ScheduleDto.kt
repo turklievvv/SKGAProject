@@ -1,9 +1,9 @@
-package data
+package data.dtoEntity
 
 import com.google.gson.annotations.SerializedName
 
 data class ScheduleDto(
-    @SerializedName("id") val id : Int,
+    @SerializedName("id") val id : String,
     @SerializedName("subject_name")val lessonName: String,
     @SerializedName("day_of_week")val dayOfWeek: Int,
     @SerializedName("lesson_number")val lessonNumber: Int,

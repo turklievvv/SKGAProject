@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mainMenuFragmentAdmin"
+        android:icon="@drawable/home_icon"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/eventsFragment"
+        android:icon="@drawable/calendar_ic"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/scheduleFragment2"
+        android:icon="@drawable/opened_book_icon"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/statistic_screen"
+        android:icon="@drawable/statictic_icon"
+        android:iconTint="@color/black"
+        />
+</menu>

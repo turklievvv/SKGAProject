@@ -1,4 +1,4 @@
-package data
+package data.api
 
 data class SignUpRequest (
     val email: String,

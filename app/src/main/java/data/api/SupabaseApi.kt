@@ -1,7 +1,10 @@
-package data
+package data.api
 
-import domain.entity.ScheduleItem
-import domain.entity.StudentProfile
+import data.dtoEntity.FacultyDto
+import data.dtoEntity.GroupDto
+import data.dtoEntity.ScheduleDto
+import data.dtoEntity.StudentProfileDto
+import domain.entity.StudentEvents
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -56,6 +59,13 @@ interface SupabaseApi {
     suspend fun getScheduleByGroup(
         @Header("apikey") apiKey: String,
         @Header("Authorization") token: String,
-        @Query("group_id") groupId: String
+        @Query("group") group: String
     ): List<ScheduleDto>
+
+    @GET("rest/v1/student_events") // Твоя новая таблица
+    suspend fun getEvents(
+        @Header("apikey") apiKey: String,
+        @Header("Authorization") token: String,
+        @Query("or") orFilter: String
+    ): List<StudentEvents>
 }

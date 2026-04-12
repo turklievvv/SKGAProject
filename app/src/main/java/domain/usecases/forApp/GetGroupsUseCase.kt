@@ -4,7 +4,7 @@ import domain.repository.StudentRepository
 
 class GetGroupsUseCase(private val repository: StudentRepository) {
 
-    suspend fun getGroups(query: String): List<String>{
-       return repository.getGroups(query)
+    suspend fun getGroups(): List<String>{
+       return repository.getGroups()
     }
 }
