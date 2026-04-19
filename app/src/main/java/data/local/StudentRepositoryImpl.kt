@@ -2,7 +2,6 @@ package data.local
 
 import android.app.Application
 import android.util.Log
-import data.api.SignUpRequest
 import data.api.SupabaseClient
 import domain.entity.DayConfig
 import domain.entity.FacultyItem
@@ -12,6 +11,7 @@ import domain.entity.StudentItem
 import domain.entity.UserProfile
 import domain.repository.StudentRepository
 import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.flow.first
@@ -40,41 +40,47 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
 
     override suspend fun signUp(studentItem: StudentItem): Result<Unit> {
         return try {
-            val authResponse = SupabaseClient.api.signUp(
-                SupabaseClient.API_KEY,
-                SignUpRequest(studentItem.email, studentItem.password)
-            )
 
+            SupabaseClient.client.auth.signUpWith(Email) {
+                email = studentItem.email
+                password = studentItem.password
+            }
+            val session = SupabaseClient.client.auth.currentSessionOrNull()
+                ?: throw Exception("Ошибка: Сессия не создана")
+
+            val userId = session.user?.id ?: throw Exception("ID пользователя не найден")
+            val token = session.accessToken
             val allFaculties = api.getFaculties(SupabaseClient.API_KEY)
-
-            // Ищем ID факультета по имени, которое лежит в studentItem.faculties
-            // Если studentItem.faculties это String, то сравниваем с it.name
             val foundFacultyId = allFaculties.find { it.name == studentItem.faculties }?.id ?: 0
 
             val profile = map.mapEntityToProfileDto(
                 studentItem,
-                authResponse.user.id,
+                userId,
                 foundFacultyId
             )
 
             SupabaseClient.api.createProfile(
                 apiKey = SupabaseClient.API_KEY,
-                token = "Bearer ${authResponse.accessToken}",
+                token = "Bearer $token",
                 profile = profile
             )
 
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e("Sign up error", "Error dutin sign up process", e)
+            Log.e("Sign up error", "Error during sign up process", e)
             Result.failure(e)
         }
     }
 
     override suspend fun login(email: String, password: String): Result<UserProfile> {
         return try {
-            val authResponse = api.login(SupabaseClient.API_KEY, SignUpRequest(email, password))
-            val uid = authResponse.user.id
-            val token = authResponse.accessToken
+            SupabaseClient.client.auth.signInWith(Email) {
+                this.email = email
+                this.password = password
+            }
+            val uid = SupabaseClient.client.auth.currentUserOrNull()?.id
+                ?: throw Exception("Ошибка получения ID пользователя")
+            val token = SupabaseClient.client.auth.currentAccessTokenOrNull()
 
             val profileDto =
                 api.getStudentProfile(SupabaseClient.API_KEY, "Bearer $token", "eq.$uid").first()
