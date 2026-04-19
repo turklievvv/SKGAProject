@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.skga.databinding.FragmentMainMenuBinding
 import com.example.skga.presentation.adminPage.scheduleManage.ScheduleManageActivity
+import com.example.skga.presentation.adminPage.teacherPage.TeacherManageActivity
 
 class MainMenuFragment : Fragment() {
 
@@ -28,6 +29,9 @@ class MainMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.scheduleBtn.setOnClickListener {
             startActivity(ScheduleManageActivity.newIntent(requireContext()))
+        }
+        binding.teachersBtn.setOnClickListener {
+            startActivity(TeacherManageActivity.newIntent(requireContext()))
         }
     }
 }

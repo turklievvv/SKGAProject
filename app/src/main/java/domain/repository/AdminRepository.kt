@@ -11,4 +11,8 @@ interface AdminRepository {
 
     suspend fun getTeachersList(): Result<List<UserProfile>>
 
+    suspend fun getTeacherLessons(teacherId: String): Result<List<ScheduleItem>>
+
+    suspend fun getAllLessons(): Result<List<ScheduleItem>>
+
 }

@@ -28,7 +28,6 @@ object SupabaseClient {
         install(Auth)
     }
 
-    // 3. Создаем OkHttpClient (это "руки" нашего официанта)
     private val httpClient = OkHttpClient.Builder()
         .addInterceptor(logging)
         .addInterceptor { chain ->

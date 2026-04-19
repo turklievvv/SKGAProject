@@ -24,9 +24,8 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
     private val map = Mapper()
     private val api = SupabaseClient.api
     private val supabaseClient = SupabaseClient
-
-
     private val sessionManager = UserSessionManager(application)
+    private val adminRepositoryImpl = AdminRepositoryImpl(application)
 
     override suspend fun getGroups(): List<String> {
         val list = api.getGroups(SupabaseClient.API_KEY)
@@ -127,7 +126,10 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
             )
 
 
-            val items = map.mapScheduleDtoToEntity(response)
+            val items = map.mapScheduleDtoToEntity(
+                response,
+                adminRepositoryImpl.getTeachersList().getOrNull() ?: emptyList()
+            )
 
             val filteredItems = items.filter { item ->
                 item.subGroup == 0 || item.subGroup == studentSubgroup

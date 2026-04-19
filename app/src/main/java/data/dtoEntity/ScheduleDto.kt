@@ -12,6 +12,6 @@ data class ScheduleDto(
     @SerializedName("start_time")val lessonStartTime: String,
     @SerializedName("end_time")val lessonEndTime: String,
     @SerializedName("subgroup")val subGroup: Int,
-    @SerializedName("teacher_name")val teacherName: String,
+    @SerializedName("teacher_id")val teacherId: String,
     @SerializedName("group")val group: String
 )

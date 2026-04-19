@@ -23,6 +23,10 @@
     <string name="week_type_denominator"> (Знам.)</string>
     <string name="week_type_always"></string>
     <string name="no_lessons_on_date">На %1$s пар нет</string>
+    <string name="teacher_lesson_count">%1$s занятий</string>
+    <string name="teacher_lessons">%1$s предмета</string>
+    <string name="teacher_groups">%1$s группы</string>
+    <string name="teacher_hours">%1$sч</string>
     <string name="user_profile_name">%1$s %2$s</string>
     <string-array name="days_of_week">
         <item>Понедельник</item>

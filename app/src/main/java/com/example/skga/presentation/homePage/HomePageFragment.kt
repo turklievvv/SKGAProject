@@ -56,7 +56,7 @@ class HomePageFragment : Fragment() {
             binding.lessonNameTv.text = closetLesson.lessonName
             binding.lessonStartTime.text = closetLesson.lessonStartTime
             binding.lessonEndTime.text = closetLesson.lessonEndTime
-            binding.teacherNameTv.text = closetLesson.lessonTeacher
+            binding.teacherNameTv.text = closetLesson.lessonTeacherFullName
             binding.classRoomTV.text = closetLesson.lessonClassRoom
         }
     }

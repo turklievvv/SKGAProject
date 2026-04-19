@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SKGA">
         <activity
+            android:name=".presentation.adminPage.teacherPage.TeacherAddEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.adminPage.teacherPage.TeacherManageActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.adminPage.scheduleManage.AddAndEditLessonActivity"
             android:exported="false" />
         <activity

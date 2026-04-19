@@ -35,7 +35,7 @@ class LessonsAdapter(private val lessons: List<ScheduleItem>) :
         holder.tvStartTime.text = lesson.lessonStartTime
         holder.tvEndTime.text = lesson.lessonEndTime
         holder.lessonName.text = lesson.lessonName
-        holder.tvTeacher.text = lesson.lessonTeacher
+        holder.tvTeacher.text = lesson.lessonTeacherFullName
         holder.tvRoom.text = "Ауд: ${lesson.lessonClassRoom}"
     }
 

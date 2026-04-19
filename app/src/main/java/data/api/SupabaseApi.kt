@@ -62,6 +62,12 @@ interface SupabaseApi {
         @Query("group") group: String
     ): List<ScheduleDto>
 
+    @GET("rest/v1/schedule")
+    suspend fun getAllSchedule(
+        @Header("apikey") apiKey: String,
+        @Header("Authorization") token: String
+    ): List<ScheduleDto>
+
     @GET("rest/v1/student_events") // Твоя новая таблица
     suspend fun getEvents(
         @Header("apikey") apiKey: String,
@@ -76,4 +82,12 @@ interface SupabaseApi {
         @Query("role") roleFilter: String = "eq.teacher",
         @Query("select") select: String = "*"
     ): List<UserProfileDto>
+
+    @GET("rest/v1/schedule")
+    suspend fun getTeacherSchedule(
+        @Header("apikey") apiKey: String,
+        @Header("Authorization") token: String,
+        @Query("teacher_id") teacherId: String,
+        @Query("select") select: String = "*"
+    ): List<ScheduleDto>
 }

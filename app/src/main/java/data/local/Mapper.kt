@@ -59,19 +59,23 @@ class Mapper {
         )
     }
 
-    fun mapScheduleDtoToEntity(scheduleDto: List<ScheduleDto>): List<ScheduleItem> {
+    fun mapScheduleDtoToEntity(scheduleDto: List<ScheduleDto>,teacherList:List<UserProfile>): List<ScheduleItem> {
         return scheduleDto.map { scheduleDto ->
+            val teacher = teacherList.find { it.id == scheduleDto.id }
+            val teacherFullName = "${teacher?.lastName} ${teacher?.firstName} ${teacher?.middleName}"
             ScheduleItem(
+                id = scheduleDto.id,
                 lessonNumber = scheduleDto.lessonNumber,
                 lessonName = scheduleDto.lessonName,
                 lessonClassRoom = scheduleDto.classRoom,
-                lessonTeacher = scheduleDto.teacherName,
+                lessonTeacherFullName = teacherFullName,
                 lessonEndTime = scheduleDto.lessonEndTime,
                 lessonStartTime = scheduleDto.lessonStartTime,
                 dayOfWeek = scheduleDto.dayOfWeek,
                 weekType = scheduleDto.weekType,
                 subGroup = scheduleDto.subGroup,
-                group = scheduleDto.group
+                group = scheduleDto.group,
+                lessonTeacherId = scheduleDto.teacherId
             )
         }
     }
