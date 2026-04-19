@@ -11,6 +11,6 @@
     <color name="yellow_alpha">#32FFC107</color>
     <color name="purple">#673AB7</color>
     <color name="purple_alpha">#3C673AB7</color>
-<color name="gray_alpha">#3B666666</color>
+    <color name="gray_alpha">#3B666666</color>
 
 </resources>

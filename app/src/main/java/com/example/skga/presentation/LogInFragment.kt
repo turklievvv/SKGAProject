@@ -45,7 +45,7 @@ class LogInFragment : Fragment() {
         viewModel.loginSuccess.observe(viewLifecycleOwner) {
             if (it) {
                 lifecycleScope.launch {
-                userSession.studentProfile.collect{studentProfile ->
+                userSession.userProfile.collect{ studentProfile ->
 
                     if (studentProfile!!.role == "admin" && studentProfile.isAdmin) {
                         startActivity(AdminPageActivity.newIntent(requireContext()))

@@ -9,8 +9,9 @@ import domain.entity.FacultyItem
 import domain.entity.ScheduleItem
 import domain.entity.StudentEvents
 import domain.entity.StudentItem
-import domain.entity.StudentProfile
+import domain.entity.UserProfile
 import domain.repository.StudentRepository
+import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.flow.first
@@ -23,6 +24,7 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
     private val map = Mapper()
     private val api = SupabaseClient.api
     private val supabaseClient = SupabaseClient
+
 
     private val sessionManager = UserSessionManager(application)
 
@@ -68,7 +70,7 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
         }
     }
 
-    override suspend fun login(email: String, password: String): Result<StudentProfile> {
+    override suspend fun login(email: String, password: String): Result<UserProfile> {
         return try {
             val authResponse = api.login(SupabaseClient.API_KEY, SignUpRequest(email, password))
             val uid = authResponse.user.id
@@ -78,7 +80,7 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
                 api.getStudentProfile(SupabaseClient.API_KEY, "Bearer $token", "eq.$uid").first()
             val facultyId = getFaculties().find { profileDto.facultyId == it.id }
 
-            val domainProfile = StudentProfile(
+            val domainProfile = UserProfile(
                 id = profileDto.id,
                 firstName = profileDto.firstName,
                 lastName = profileDto.lastName,
@@ -89,7 +91,6 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
                 phone = profileDto.phone,
                 course = calculateCourse(profileDto.groupId?:"нет"),
                 subgroup = 1,
-                token = authResponse.accessToken,
                 avatarUrl = profileDto.avatar,
                 role = profileDto.role,
                 isAdmin = profileDto.isAdmin
@@ -103,10 +104,10 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
         }
     }
 
-    suspend fun loadScheduleForCurrentStudent(): Result<List<ScheduleItem>> {
+    override suspend fun loadScheduleForStudent(): Result<List<ScheduleItem>> {
         return try {
-
-            val student = sessionManager.studentProfile.first()
+            val currentToken = supabaseClient.client.auth.currentAccessTokenOrNull()
+            val student = sessionManager.userProfile.first()
             val group = student?.group ?: return Result.failure(Exception("Группа не найдена"))
             Log.d("REPO_DEBUG", "Запрос на группу $group")
             val studentSubgroup = student.subgroup
@@ -115,7 +116,7 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
             // 2. Делаем запрос в Supabase с фильтром по группе
             val response = api.getScheduleByGroup(
                 apiKey = SupabaseClient.API_KEY,
-                token = "Bearer ${student.token}",
+                token = "Bearer $currentToken",
                 group = "eq.$group"
             )
 
@@ -133,18 +134,18 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
         }
     }
 
-    suspend fun loadEventsForCurrentStudent(): Result<List<StudentEvents>> {
+    override suspend fun loadEventForStudent(): Result<List<StudentEvents>> {
         return try {
-
-            val student = sessionManager.studentProfile.first()
+            val currentToken = supabaseClient.client.auth.currentAccessTokenOrNull()
+            val student = sessionManager.userProfile.first()
             val group = student?.group ?: return Result.failure(Exception("Группа не найдена"))
             val facultyId = student.facultyId
-
+            Log.d("AUTH_DEBUG", "Отправляю токен: Bearer $currentToken")
             val filter = "or(group_id.eq.$group,faculty_id.eq.$facultyId,is_global.is.true)"
 
             val responseEvents = api.getEvents(
                 SupabaseClient.API_KEY,
-                student.token,
+                currentToken ?: "",
                 filter)
             Result.success(responseEvents)
         } catch (e: Exception) {
@@ -169,7 +170,8 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
         return course.coerceIn(1, 6)
     }
 
-    suspend fun uploadAvatar(fileBytes: ByteArray, fileName: String): String? {
+
+    override suspend fun uploadAvatar(fileBytes: ByteArray, fileName: String): String? {
         return try {
             val bucket = SupabaseClient.client.storage.from("StudentAvatars")
             val path = "$fileName.jpg"
@@ -191,7 +193,7 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
         }
     }
 
-    suspend fun updateStudentAvatarUrl(studentId: String, imageUrl: String) {
+    override suspend fun updateAvatarUrl(studentId: String, imageUrl: String) {
         SupabaseClient.client.postgrest.from("profiles").update(
             {
                 set("avatar", imageUrl)

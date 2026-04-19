@@ -1,17 +1,20 @@
 package com.example.skga.presentation.profilePage
 
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import data.local.StudentRepositoryImpl
 import data.local.UserSessionManager
-import domain.entity.StudentProfile
+import domain.entity.UserProfile
+import domain.usecases.forApp.UpdateStudentAvatarUrlUseCase
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -19,16 +22,21 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
 
     private val repository = StudentRepositoryImpl(application)
 
-    private val context = getApplication<Application>().applicationContext
-    private val userSessionManager = UserSessionManager(context)
-    lateinit var student: StudentProfile
+    private val updateStudentAvatarUrlUseCase = UpdateStudentAvatarUrlUseCase(repository)
+    private val userSessionManager = UserSessionManager(application.applicationContext)
+    lateinit var student: UserProfile
 
-    suspend fun uploadStudentPhoto(byteArray: ByteArray, view: ImageView,studentProfile: StudentProfile) {
+    suspend fun uploadStudentPhoto(
+        byteArray: ByteArray,
+        view: ImageView,
+        userProfile: UserProfile,
+        context: Context
+    ) {
         val fileName =
-            "${studentProfile.id}_profile_photo}"
+            "${userProfile.id}_profile_photo}"
         val imageUrl = repository.uploadAvatar(byteArray, fileName)
         if (imageUrl != null) {
-            repository.updateStudentAvatarUrl(studentProfile.id, imageUrl)
+            updateStudentAvatarUrlUseCase.updateAvatarUrl(userProfile.id, imageUrl)
             userSessionManager.updateAvatarUrl(imageUrl)
             Glide.with(context)
                 .load(imageUrl)
@@ -54,7 +62,7 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         val tempFile = File.createTempFile(
             "avatar_capture_${System.currentTimeMillis()}",
             ".jpg",
-            context.cacheDir
+            application.applicationContext.cacheDir
         ).apply {
             createNewFile()
             deleteOnExit() // Удалить файл, когда приложение закроется
@@ -62,16 +70,16 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
 
         // 2. Превращаем файл в безопасный Uri через FileProvider
         return FileProvider.getUriForFile(
-            context,
+            application.applicationContext,
             "com.example.skga.provider", // Строка должна совпадать с манифестом
             tempFile
         )
     }
 
     fun takeStudentProfile() {
-        val userSession = UserSessionManager(context)
+        val userSession = UserSessionManager(application.applicationContext)
         viewModelScope.launch {
-            userSession.studentProfile.collect {
+            userSession.userProfile.collect {
                 if (it != null)
                     student = it
             }
@@ -81,7 +89,7 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
     fun uriToByteArray(uri: Uri): ByteArray? {
         return try {
             // Открываем поток для чтения данных по Uri
-            val inputStream = context.contentResolver.openInputStream(uri)
+            val inputStream = application.applicationContext.contentResolver.openInputStream(uri)
 
             // Читаем все байты и закрываем поток
             val bytes = inputStream?.use { it.readBytes() }

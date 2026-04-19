@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SKGA">
         <activity
+            android:name=".presentation.adminPage.scheduleManage.AddAndEditLessonActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.adminPage.scheduleManage.ScheduleManageActivity"
             android:exported="false" />
         <activity

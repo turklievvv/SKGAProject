@@ -33,7 +33,7 @@ class MainMenuActivity : AppCompatActivity() {
         }
         val userSessionManager = UserSessionManager(this)
         lifecycleScope.launch {
-            userSessionManager.studentProfile.collect {
+            userSessionManager.userProfile.collect {
                 val myName = it?.firstName?:"Ошибка"
                 val name: TextView = findViewById(R.id.mainMenuFullNameText)
                 name.text = myName

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +29,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
     private fun userSession() {
         val sessionManager = UserSessionManager(this)
         lifecycleScope.launch {
-            val profile = sessionManager.studentProfile.first()
+            val profile = sessionManager.userProfile.first()
 
             if (profile != null) {
                 if (profile.role == "admin" && profile.isAdmin) {

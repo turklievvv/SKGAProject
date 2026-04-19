@@ -1,6 +1,7 @@
 package data.api
 
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
 import okhttp3.OkHttpClient
@@ -24,6 +25,7 @@ object SupabaseClient {
 
         install(Storage.Companion)
         install(Postgrest.Companion)
+        install(Auth)
     }
 
     // 3. Создаем OkHttpClient (это "руки" нашего официанта)
@@ -34,8 +36,6 @@ object SupabaseClient {
             val request = original.newBuilder()
                 // 1. Заголовок apikey
                 .header("apikey", API_KEY.trim())
-                // 2. Заголовок Authorization (БЕЗ НЕГО БУДЕТ 401!)
-                .header("Authorization", "Bearer ${API_KEY.trim()}")
                 .build()
             chain.proceed(request)
         }

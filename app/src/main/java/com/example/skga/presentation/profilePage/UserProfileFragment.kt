@@ -11,16 +11,13 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.application
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.example.skga.databinding.FragmentUserProfileBinding
 import com.example.skga.presentation.WelcomeScreenActivity
 import data.local.StudentRepositoryImpl
 import data.local.UserSessionManager
-import domain.entity.StudentProfile
 import kotlinx.coroutines.launch
 
 class UserProfileFragment : Fragment() {
@@ -56,7 +53,12 @@ class UserProfileFragment : Fragment() {
                     val bytes = viewModel.uriToByteArray(safeUri)
                     if (bytes != null) {
                         viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.uploadStudentPhoto(bytes,binding.profileImage,viewModel.student)
+                            viewModel.uploadStudentPhoto(
+                                bytes,
+                                binding.profileImage,
+                                viewModel.student,
+                                requireContext()
+                            )
                         }
                     }
                 }
@@ -70,7 +72,12 @@ class UserProfileFragment : Fragment() {
                     val bytes = viewModel.uriToByteArray(it)
                     if (bytes != null) {
                         viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.uploadStudentPhoto(bytes,binding.profileImage,viewModel.student)
+                            viewModel.uploadStudentPhoto(
+                                bytes,
+                                binding.profileImage,
+                                viewModel.student,
+                                requireContext()
+                            )
                         }
                     }
                 }

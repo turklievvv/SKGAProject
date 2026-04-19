@@ -1,6 +1,6 @@
 package domain.entity
 
-data class StudentProfile(
+data class UserProfile(
     val id: String, // UUID из Supabase Auth
     val firstName: String,
     val lastName: String,
@@ -11,7 +11,6 @@ data class StudentProfile(
     val phone: String,
     val course: Int?,
     val subgroup :Int?,
-    val token : String,
     val avatarUrl: String?,
     val role : String?,
     val isAdmin: Boolean,

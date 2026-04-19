@@ -2,7 +2,7 @@ package data.dtoEntity
 
 import com.google.gson.annotations.SerializedName
 
-data class StudentProfileDto(
+data class UserProfileDto(
     @SerializedName("id") val id: String,
     @SerializedName("first_name") val firstName: String,
     @SerializedName("last_name") val lastName: String,
@@ -12,5 +12,8 @@ data class StudentProfileDto(
     @SerializedName("faculty_id") val facultyId: Int?,
     @SerializedName("phone")val phone: String,
     @SerializedName("avatar")val avatar: String?,
-    @SerializedName("is_super_admin")val isAdmin: Boolean
+    @SerializedName("is_super_admin")val isAdmin: Boolean,
+    @SerializedName("email")val email: String,
+    @SerializedName("course")val course: Int
+
 )

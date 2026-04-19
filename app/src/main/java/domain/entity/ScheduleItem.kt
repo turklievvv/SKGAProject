@@ -1,5 +1,9 @@
 package domain.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ScheduleItem (
     val lessonNumber: Int,
     val lessonName: String,
@@ -11,4 +15,4 @@ data class ScheduleItem (
     val weekType: Int,
     val subGroup:Int,
     val group: String
-)
+) : Parcelable

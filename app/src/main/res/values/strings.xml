@@ -24,5 +24,26 @@
     <string name="week_type_always"></string>
     <string name="no_lessons_on_date">На %1$s пар нет</string>
     <string name="user_profile_name">%1$s %2$s</string>
+    <string-array name="days_of_week">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+
+    <string-array name="subgroup_list">
+        <item>Вся подгруппа</item>
+        <item>1 подгруппа</item>
+        <item>2 подгруппа</item>
+    </string-array>
+
+    <string-array name="week_type">
+        <item>Каждую неделю</item>
+        <item>Числитель</item>
+        <item>Знаменатель</item>
+    </string-array>
 
 </resources>

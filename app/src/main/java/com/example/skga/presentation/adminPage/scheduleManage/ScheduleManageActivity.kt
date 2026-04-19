@@ -38,7 +38,9 @@ class ScheduleManageActivity : AppCompatActivity() {
         bindingToggleGroup()
         bindingBottomMenu()
 
-
+        binding.addlessonToSchedule.setOnClickListener {
+            startActivity(Intent(this,AddAndEditLessonActivity::class.java))
+        }
         val recyclerView = binding.recyclerViewScheduleAdmin
         recyclerView.layoutManager = LinearLayoutManager(this)
         viewModel.scheduleList.observe(this) {

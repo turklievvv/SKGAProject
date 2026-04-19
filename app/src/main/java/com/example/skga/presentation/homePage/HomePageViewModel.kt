@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import data.local.StudentRepositoryImpl
 import domain.entity.DayConfig
 import domain.entity.ScheduleItem
+import domain.usecases.forApp.LoadScheduleForCurrentStudentUseCase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -16,6 +17,8 @@ import java.util.Locale
 class HomePageViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository = StudentRepositoryImpl(application)
+
+    val loadScheduleUseCase = LoadScheduleForCurrentStudentUseCase(repository)
 
     val daysList: List<DayConfig> by lazy { repository.generateDaysList(14) }
     private val _scheduleList = MutableLiveData<List<ScheduleItem>>()
@@ -30,7 +33,7 @@ class HomePageViewModel(application: Application) : AndroidViewModel(application
     fun loadData() {
         viewModelScope.launch {
             // Загружаем всё расписание группы
-            val result = repository.loadScheduleForCurrentStudent()
+            val result = loadScheduleUseCase.loadScheduleForStudent()
             _scheduleList.value = result.getOrNull() ?: emptyList()
         }
     }

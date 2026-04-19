@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    val supabaseVersion = "2.5.0"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -81,4 +82,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.material:material:1.9.0")
     kapt("androidx.room:room-compiler:2.8.3")
+// База данных
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:${supabaseVersion}")
+// Хранилище
+    implementation("io.github.jan-tennert.supabase:storage-kt:${supabaseVersion}")
+// АВТОРИЗАЦИЯ (в этой версии имя именно такое)
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:${supabaseVersion}")
 }

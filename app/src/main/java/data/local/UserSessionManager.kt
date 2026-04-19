@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
-import domain.entity.StudentProfile
+import domain.entity.UserProfile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -22,7 +22,7 @@ class UserSessionManager(private val context: Context) {
     }
 
     // СОХРАНЕНИЕ: Берем твой StudentItem и превращаем в JSON-строку
-    suspend fun saveStudentProfile(student: StudentProfile) {
+    suspend fun saveStudentProfile(student: UserProfile) {
         val jsonString = gson.toJson(student)
         context.dataStore.edit { preferences ->
             preferences[STUDENT_PROFILE_KEY] = jsonString
@@ -30,11 +30,11 @@ class UserSessionManager(private val context: Context) {
     }
 
     // ЧТЕНИЕ: Достаем строку и превращаем обратно в объект StudentItem
-    val studentProfile: Flow<StudentProfile?> = context.dataStore.data
+    val userProfile: Flow<UserProfile?> = context.dataStore.data
         .map { preferences ->
             val jsonString = preferences[STUDENT_PROFILE_KEY]
             if (jsonString != null) {
-                gson.fromJson(jsonString, StudentProfile::class.java)
+                gson.fromJson(jsonString, UserProfile::class.java)
             } else {
                 null
             }
