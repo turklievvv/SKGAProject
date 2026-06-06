@@ -47,7 +47,7 @@ class ScheduleManageViewModel(application: Application) : AndroidViewModel(appli
 
     fun getGroups() {
         viewModelScope.launch {
-            _groupList.value = getGroupsUseCase.getGroups()
+            _groupList.value =getGroupsUseCase.getGroups().map { it.id }
         }
     }
 

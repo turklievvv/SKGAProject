@@ -14,6 +14,6 @@ data class UserProfileDto(
     @SerializedName("avatar")val avatar: String?,
     @SerializedName("is_super_admin")val isAdmin: Boolean,
     @SerializedName("email")val email: String,
-    @SerializedName("course")val course: Int
+    @SerializedName("course")val course: Int?
 
 )

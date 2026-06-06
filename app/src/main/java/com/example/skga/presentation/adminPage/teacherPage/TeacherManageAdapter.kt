@@ -30,6 +30,9 @@ class TeacherManageAdapter(
     ) {
         val item = teacherList[position]
         val context = holder.itemView.context
+        holder.itemView.setOnClickListener {
+            context.startActivity(TeacherInfoActivity.newIntent(context,item))
+        }
         holder.teacherName.text =
             "${item.userProfile.lastName} ${item.userProfile.firstName.firstOrNull()}. ${item.userProfile.middleName.firstOrNull()}."
         holder.teacherGroupCount.text = context.getString(R.string.teacher_groups, item.teacherGroups.size)

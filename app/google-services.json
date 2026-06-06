@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "502975733050",
+    "project_id": "skga-notifications",
+    "storage_bucket": "skga-notifications.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502975733050:android:a14a38edc24415902cc403",
+        "android_client_info": {
+          "package_name": "com.example.skga"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7BPgx7Be_pRy86GobhbBvHDN1Az88qSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

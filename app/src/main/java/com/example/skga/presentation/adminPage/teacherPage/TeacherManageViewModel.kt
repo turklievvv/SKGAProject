@@ -42,12 +42,8 @@ class TeacherManageViewModel(application: Application) : AndroidViewModel(applic
     private var allLessons: List<ScheduleItem> = emptyList()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        // Логируем ошибку в консоль, чтобы видеть её, но не падать
         throwable.printStackTrace()
-
-        // Передаем сообщение в Toast и запускаем перезапуск
         _isLoading.postValue(false)
-        // Запускаем новый круг загрузки, так как этот упал
         viewModelScope.launch {
             delay(10000)
             loadInitialData()
@@ -55,11 +51,9 @@ class TeacherManageViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private val _teacherFilteredItems = MediatorLiveData<List<TeacherItem>>().apply {
-        // Следим за обновлением основного списка учителей
         addSource(_teacherItemList) { teachers ->
             value = filterData(teachers, searchQuery.value ?: "")
         }
-        // Следим за вводом текста в поисковую строку
         addSource(searchQuery) { query ->
             value = filterData(_teacherItemList.value ?: emptyList(), query)
         }
@@ -77,7 +71,6 @@ class TeacherManageViewModel(application: Application) : AndroidViewModel(applic
         val cleanQuery = query.trim()
 
         return teachers.filter { teacher ->
-            // Поиск по имени/фамилии
             val matchesName = teacher.userProfile.lastName.contains(
                 cleanQuery,
                 ignoreCase = true
@@ -86,11 +79,8 @@ class TeacherManageViewModel(application: Application) : AndroidViewModel(applic
             val matchesSubject =
                 teacher.teacherLessons.any { it.lessonName.contains(cleanQuery, ignoreCase = true) }
 
-            // Поиск по группам
             val matchesGroup =
                 teacher.teacherGroups.any { it.contains(cleanQuery, ignoreCase = true) }
-
-            // Если хоть один критерий совпал — оставляем преподавателя
             matchesName || matchesSubject || matchesGroup
         }
     }

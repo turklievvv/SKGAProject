@@ -37,6 +37,7 @@
                 app:titleTextColor="@color/white" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -110,7 +111,6 @@
                         android:layout_height="50dp"
                         android:layout_gravity="bottom"
                         android:layout_marginStart="70dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="15dp"
                         app:boxBackgroundColor="#F5F6F8"
@@ -146,6 +146,7 @@
                         android:layout_marginStart="70dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="15dp"
+                        android:layout_marginTop="10dp"
                         app:boxBackgroundColor="#F5F6F8"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
@@ -154,7 +155,7 @@
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="1dp"
                         app:hintTextColor="#37474F"
-                        app:layout_constraintTop_toBottomOf="@id/teacherContactInfoIcon"
+                        app:layout_constraintTop_toBottomOf="@id/teacherPhoneTI"
                         app:startIconTint="#E57373">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -337,7 +338,7 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/cafedraIcon"
                         android:layout_width="45dp"
-                        android:layout_height="35dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="15dp"
                         android:background="@color/red_alpha2"
@@ -379,7 +380,7 @@
                         app:startIconTint="#E57373">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:id="@+id/lessonNameET"
+                            android:id="@+id/teacherFacultyAC"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Введите название урока"
@@ -406,6 +407,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/sendInviteBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

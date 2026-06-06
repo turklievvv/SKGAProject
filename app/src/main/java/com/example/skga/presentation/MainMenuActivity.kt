@@ -3,6 +3,7 @@ package com.example.skga.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.skga.R
 import com.example.skga.databinding.ActivityMainMenuBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 import data.local.UserSessionManager
 import kotlinx.coroutines.launch
 
@@ -37,6 +39,7 @@ class MainMenuActivity : AppCompatActivity() {
                 val myName = it?.firstName?:"Ошибка"
                 val name: TextView = findViewById(R.id.mainMenuFullNameText)
                 name.text = myName
+                subscribeStudent(it?.facultyId ?: 2, it?.group ?: "ПМИ-221")
             }
         }
         val navHostFragment = supportFragmentManager
@@ -53,6 +56,36 @@ class MainMenuActivity : AppCompatActivity() {
                 binding.mainMenuProfileImage.visibility = View.VISIBLE
             }
         }
+    }
+
+    fun subscribeStudent(faculty: Int, group: String) {
+        val safeFacultyToken = "faculty_${formatTopicName(faculty.toString())}"
+        val safeGroupToken = "group_${formatTopicName(group)}"
+
+        FirebaseMessaging.getInstance().subscribeToTopic(safeFacultyToken)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("FCM_DEBUG","Успешная подписка на факультетский топик: $safeFacultyToken")
+                }
+                if (!task.isSuccessful) {
+                    Log.d("FCM_DEBUG", "Не удалось получить FCM-токен", task.exception)
+                    return@addOnCompleteListener
+                }
+            }
+
+        // 2. Подписываем на группу
+        FirebaseMessaging.getInstance().subscribeToTopic(safeGroupToken)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    println("Успешная подписка на групповой топик: $safeGroupToken")
+                }
+            }
+    }
+
+    fun formatTopicName(name: String): String {
+        return name.lowercase()
+            .replace(" ", "_")
+            .replace("-", "_")
     }
 
     companion object{

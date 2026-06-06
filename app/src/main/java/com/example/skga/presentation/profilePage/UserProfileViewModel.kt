@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
@@ -21,10 +23,19 @@ import java.io.File
 class UserProfileViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = StudentRepositoryImpl(application)
-
     private val updateStudentAvatarUrlUseCase = UpdateStudentAvatarUrlUseCase(repository)
     private val userSessionManager = UserSessionManager(application.applicationContext)
-    lateinit var student: UserProfile
+
+    private val _student = MutableLiveData<UserProfile>()
+    val student: LiveData<UserProfile> get() = _student
+
+    fun takeStudentProfile() {
+        viewModelScope.launch {
+            userSessionManager.userProfile.collect {
+                if (it != null) _student.value = it
+            }
+        }
+    }
 
     suspend fun uploadStudentPhoto(
         byteArray: ByteArray,
@@ -32,8 +43,7 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         userProfile: UserProfile,
         context: Context
     ) {
-        val fileName =
-            "${userProfile.id}_profile_photo}"
+        val fileName = "${userProfile.id}_profile_photo"  // заодно убрали лишнюю }
         val imageUrl = repository.uploadAvatar(byteArray, fileName)
         if (imageUrl != null) {
             updateStudentAvatarUrlUseCase.updateAvatarUrl(userProfile.id, imageUrl)
@@ -43,61 +53,35 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .circleCrop()
                 .into(view)
-            Toast.makeText(
-                context,
-                "Фото обновлено!",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(context, "Фото обновлено!", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(
-                context,
-                "Ошибка загрузки",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(context, "Ошибка загрузки", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun createTempUri(): Uri {
-        // 1. Создаем временный файл в кэше приложения
         val tempFile = File.createTempFile(
             "avatar_capture_${System.currentTimeMillis()}",
             ".jpg",
             application.applicationContext.cacheDir
         ).apply {
             createNewFile()
-            deleteOnExit() // Удалить файл, когда приложение закроется
+            deleteOnExit()
         }
-
-        // 2. Превращаем файл в безопасный Uri через FileProvider
         return FileProvider.getUriForFile(
             application.applicationContext,
-            "com.example.skga.provider", // Строка должна совпадать с манифестом
+            "com.example.skga.provider",
             tempFile
         )
     }
 
-    fun takeStudentProfile() {
-        val userSession = UserSessionManager(application.applicationContext)
-        viewModelScope.launch {
-            userSession.userProfile.collect {
-                if (it != null)
-                    student = it
-            }
-        }
-    }
-
     fun uriToByteArray(uri: Uri): ByteArray? {
         return try {
-            // Открываем поток для чтения данных по Uri
             val inputStream = application.applicationContext.contentResolver.openInputStream(uri)
-
-            // Читаем все байты и закрываем поток
-            val bytes = inputStream?.use { it.readBytes() }
-            bytes
+            inputStream?.use { it.readBytes() }
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
-
 }

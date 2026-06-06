@@ -1,11 +1,11 @@
 package domain.usecases.forApp
 
-import domain.entity.StudentEvents
+import domain.entity.EventItem
 import domain.repository.StudentRepository
 
 class LoadEventsForCurrentStudentUseCase(private val repository: StudentRepository) {
 
-    suspend fun loadEvents():Result<List<StudentEvents>>{
+    suspend fun loadEvents():Result<List<EventItem>>{
         return repository.loadEventForStudent()
     }
 

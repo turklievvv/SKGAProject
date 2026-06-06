@@ -100,7 +100,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             viewModelScope.launch {
                 try {
                     _loading.value = true
-                    val result = signUp.signUp(studentItem)
+                    val result = signUp.signUp(parsedStudentItem)
                     if (result.isSuccess) {
                         _isRegistrationSuccess.value = true
                     }

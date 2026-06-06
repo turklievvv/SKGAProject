@@ -37,16 +37,17 @@ class RegistrationFragment : Fragment() {
         bindingViews()
         resetError()
 
+        viewModel.isRegistrationSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) findNavController().popBackStack()
+        }
     }
 
     private fun bindingViews() {
         binding.registrationButton.setOnClickListener {
             viewModel.register(
-                returnStudentItemFromRegistration(), binding.etPasswordRepeat.text.toString()
+                returnStudentItemFromRegistration(),
+                binding.etPasswordRepeat.text.toString()
             )
-            viewModel.isRegistrationSuccess.observe(viewLifecycleOwner) { success ->
-                if (success) findNavController().popBackStack()
-            }
         }
         binding.alreadyHaveAccountButton.setOnClickListener {
             findNavController().popBackStack()

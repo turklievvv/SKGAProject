@@ -67,6 +67,10 @@ class TeacherManageActivity : AppCompatActivity() {
                 ).show()
             }
         }
+
+        binding.addTeacher.setOnClickListener {
+            startActivity(TeacherAddEditActivity.newIntent(this,teacherItem = null))
+        }
     }
 
 

@@ -1,5 +1,9 @@
 package domain.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class UserProfile(
     val id: String, // UUID из Supabase Auth
     val firstName: String,
@@ -13,5 +17,5 @@ data class UserProfile(
     val subgroup :Int?,
     val avatarUrl: String?,
     val role : String?,
-    val isAdmin: Boolean,
-)
+    val isAdmin: Boolean = false,
+): Parcelable

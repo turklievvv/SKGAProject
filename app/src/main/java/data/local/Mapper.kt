@@ -1,9 +1,14 @@
 package data.local
 
+import android.util.Log
+import data.dtoEntity.EventsDto
 import data.dtoEntity.FacultyDto
+import data.dtoEntity.GroupDto
 import data.dtoEntity.ScheduleDto
 import data.dtoEntity.UserProfileDto
+import domain.entity.EventItem
 import domain.entity.FacultyItem
+import domain.entity.GroupItem
 import domain.entity.ScheduleItem
 import domain.entity.StudentItem
 import domain.entity.UserProfile
@@ -18,7 +23,7 @@ class Mapper {
         )
     }
 
-    fun mapEntityToProfileDto(
+    fun mapStudentEntityToProfileDto(
         entity: StudentItem,
         userId: String,
         facultyId: Int
@@ -36,6 +41,68 @@ class Mapper {
             isAdmin = false,
             email = entity.email,
             course = calculateCourse(entity.group ?: "")
+        )
+    }
+
+    fun mapTeacherEntityToProfileDto(
+        entity: UserProfile,
+        userId: String,
+        facultyId: Int
+    ): UserProfileDto {
+        return UserProfileDto(
+            id = userId,
+            firstName = entity.firstName,
+            lastName = entity.lastName,
+            middleName = entity.middleName,
+            facultyId = facultyId,
+            role = "teacher",
+            phone = entity.phone,
+            avatar = null,
+            isAdmin = false,
+            email = entity.email,
+            course = null,
+            groupId = null
+        )
+    }
+
+    fun mapEventsDtoToEntity(eventsDto: EventsDto): EventItem {
+        return EventItem(
+            eventDate = eventsDto.eventDate,
+            id = eventsDto.id,
+            eventDescription = eventsDto.eventDescription,
+            eventFaculties = eventsDto.eventFaculties,
+            eventGroups = eventsDto.eventGroups,
+            eventIsActual = eventsDto.eventIsActual,
+            eventIsGlobal = eventsDto.eventIsGlobal,
+            eventLocation = eventsDto.eventLocation,
+            eventName = eventsDto.eventName,
+            eventIsTeachers = eventsDto.eventIsTeachers,
+            eventTime = eventsDto.eventTime,
+            eventType = eventsDto.eventType
+        )
+    }
+
+    fun mapEventsEntityToDto(eventsItem: EventItem): EventsDto {
+        return EventsDto(
+            eventDate = eventsItem.eventDate,
+            id = eventsItem.id,
+            eventDescription = eventsItem.eventDescription,
+            eventFaculties = eventsItem.eventFaculties,
+            eventGroups = eventsItem.eventGroups,
+            eventIsActual = eventsItem.eventIsActual,
+            eventIsGlobal = eventsItem.eventIsGlobal,
+            eventLocation = eventsItem.eventLocation,
+            eventName = eventsItem.eventName,
+            eventIsTeachers = eventsItem.eventIsTeachers,
+            eventTime = eventsItem.eventTime,
+            eventType = eventsItem.eventType
+        )
+    }
+
+    fun mapGroupDtoToEntity(groupDto: GroupDto): GroupItem {
+        return GroupItem(
+            id = groupDto.id,
+            facultyId = groupDto.facultyId
         )
     }
 
@@ -61,8 +128,11 @@ class Mapper {
 
     fun mapScheduleDtoToEntity(scheduleDto: List<ScheduleDto>,teacherList:List<UserProfile>): List<ScheduleItem> {
         return scheduleDto.map { scheduleDto ->
-            val teacher = teacherList.find { it.id == scheduleDto.id }
+            val teacher = teacherList.find { it.id == scheduleDto.teacherId }
+            Log.d("DEBUG_TEACHER", "В расписание пришел $teacher")
             val teacherFullName = "${teacher?.lastName} ${teacher?.firstName} ${teacher?.middleName}"
+            val teacherShortName =
+                "${teacher?.lastName} ${teacher?.firstName?.firstOrNull()}. ${teacher?.middleName?.firstOrNull()}."
             ScheduleItem(
                 id = scheduleDto.id,
                 lessonNumber = scheduleDto.lessonNumber,
@@ -75,9 +145,26 @@ class Mapper {
                 weekType = scheduleDto.weekType,
                 subGroup = scheduleDto.subGroup,
                 group = scheduleDto.group,
-                lessonTeacherId = scheduleDto.teacherId
+                lessonTeacherId = scheduleDto.teacherId,
+                lessonTeacherShortName = teacherShortName
             )
         }
+    }
+
+    fun mapScheduleEntityToDto(item: ScheduleItem): ScheduleDto {
+        return ScheduleDto(
+            id = item.id,
+            lessonName = item.lessonName,
+            dayOfWeek = item.dayOfWeek,
+            lessonNumber = item.lessonNumber,
+            classRoom = item.lessonClassRoom,
+            weekType = item.weekType,
+            lessonStartTime = item.lessonStartTime,
+            lessonEndTime = item.lessonEndTime,
+            subGroup = item.subGroup,
+            teacherId = item.lessonTeacherId,
+            group = item.group
+        )
     }
 
     private fun calculateCourse(groupName: String): Int {

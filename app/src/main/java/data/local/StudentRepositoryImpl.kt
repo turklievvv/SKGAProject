@@ -4,9 +4,9 @@ import android.app.Application
 import android.util.Log
 import data.api.SupabaseClient
 import domain.entity.DayConfig
+import domain.entity.EventItem
 import domain.entity.FacultyItem
 import domain.entity.ScheduleItem
-import domain.entity.StudentEvents
 import domain.entity.StudentItem
 import domain.entity.UserProfile
 import domain.repository.StudentRepository
@@ -52,11 +52,12 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
             val allFaculties = api.getFaculties(SupabaseClient.API_KEY)
             val foundFacultyId = allFaculties.find { it.name == studentItem.faculties }?.id ?: 0
 
-            val profile = map.mapEntityToProfileDto(
+            val profile = map.mapStudentEntityToProfileDto(
                 studentItem,
                 userId,
-                foundFacultyId
+                2
             )
+            Log.d("SUPABASE_SAVE", "Отправляю профиль: Имя=${profile.firstName}, Фамилия=${profile.lastName}, Группа=${profile.groupId}")
 
             SupabaseClient.api.createProfile(
                 apiKey = SupabaseClient.API_KEY,
@@ -142,20 +143,22 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
         }
     }
 
-    override suspend fun loadEventForStudent(): Result<List<StudentEvents>> {
+    override suspend fun loadEventForStudent(): Result<List<EventItem>> {
         return try {
             val currentToken = supabaseClient.client.auth.currentAccessTokenOrNull()
             val student = sessionManager.userProfile.first()
             val group = student?.group ?: return Result.failure(Exception("Группа не найдена"))
             val facultyId = student.facultyId
             Log.d("AUTH_DEBUG", "Отправляю токен: Bearer $currentToken")
-            val filter = "or(group_id.eq.$group,faculty_id.eq.$facultyId,is_global.is.true)"
-
+            val filter =
+                "or(event_groups.cs.{${group}},event_faculties.cs.{${facultyId}},event_is_global.is.true)"
             val responseEvents = api.getEvents(
                 SupabaseClient.API_KEY,
                 currentToken ?: "",
                 filter)
-            Result.success(responseEvents)
+
+            val item = responseEvents.map { eventsDto -> map.mapEventsDtoToEntity(eventsDto) }
+            Result.success(item)
         } catch (e: Exception) {
             Result.failure(e)
         }

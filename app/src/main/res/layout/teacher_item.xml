@@ -51,7 +51,7 @@
 
 
         <ImageView
-            android:id="@+id/eventDateIc"
+            android:id="@+id/eventTimeIc"
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_marginTop="10dp"
@@ -70,9 +70,9 @@
             android:layout_marginStart="5dp"
             android:text="@string/teacher_lesson_count"
             android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="@id/eventDateIc"
-            app:layout_constraintStart_toEndOf="@id/eventDateIc"
-            app:layout_constraintTop_toTopOf="@id/eventDateIc" />
+            app:layout_constraintBottom_toBottomOf="@id/eventTimeIc"
+            app:layout_constraintStart_toEndOf="@id/eventTimeIc"
+            app:layout_constraintTop_toTopOf="@id/eventTimeIc" />
 
         <ImageView
             android:id="@+id/eventRoomIc"
@@ -82,8 +82,8 @@
             android:src="@drawable/opened_book_icon"
             app:tint="@color/black"
             app:layout_constraintBottom_toTopOf="@id/eventAudienceIc"
-            app:layout_constraintStart_toStartOf="@id/eventDateIc"
-            app:layout_constraintTop_toBottomOf="@id/eventDateIc" />
+            app:layout_constraintStart_toStartOf="@id/eventTimeIc"
+            app:layout_constraintTop_toBottomOf="@id/eventTimeIc" />
 
         <TextView
             android:id="@+id/teacherLessons"

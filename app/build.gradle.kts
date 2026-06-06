@@ -4,6 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -41,6 +42,16 @@ android {
     buildFeatures{
         dataBinding = true
         viewBinding = true
+    }
+    packaging {
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/LICENSE.txt"
+            excludes += "META-INF/NOTICE"
+            excludes += "META-INF/NOTICE.txt"
+        }
     }
 }
 
@@ -82,10 +93,13 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.material:material:1.9.0")
     kapt("androidx.room:room-compiler:2.8.3")
-// База данных
     implementation("io.github.jan-tennert.supabase:postgrest-kt:${supabaseVersion}")
-// Хранилище
     implementation("io.github.jan-tennert.supabase:storage-kt:${supabaseVersion}")
-// АВТОРИЗАЦИЯ (в этой версии имя именно такое)
+    implementation("io.github.jan-tennert.supabase:realtime-kt:$supabaseVersion")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:${supabaseVersion}")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:34.14.0"))
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
+
 }

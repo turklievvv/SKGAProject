@@ -12,6 +12,7 @@ data class ScheduleItem (
     val lessonEndTime: String,
     val lessonClassRoom: String,
     val lessonTeacherFullName: String,
+    val lessonTeacherShortName: String,
     val lessonTeacherId: String,
     val dayOfWeek:Int,
     val weekType: Int,

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.skga.databinding.FragmentLogInBinding
 import com.example.skga.presentation.adminPage.AdminPageActivity
 import data.local.UserSessionManager
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class LogInFragment : Fragment() {
@@ -42,27 +44,29 @@ class LogInFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(LogInViewModel::class.java)
         userSession = UserSessionManager(requireContext())
 
-        viewModel.loginSuccess.observe(viewLifecycleOwner) {
-            if (it) {
+        viewModel.loginSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) {
                 lifecycleScope.launch {
-                userSession.userProfile.collect{ studentProfile ->
+                    val studentProfile = userSession.userProfile.first() // first() вместо collect
+                        ?: return@launch
 
-                    if (studentProfile!!.role == "admin" && studentProfile.isAdmin) {
-                        startActivity(AdminPageActivity.newIntent(requireContext()))
+                    when {
+                        studentProfile.role == "admin" && studentProfile.isAdmin -> {
+                            startActivity(AdminPageActivity.newIntent(requireContext()))
+                        }
+                        studentProfile.role == "student" -> {
+                            startActivity(MainMenuActivity.newIntent(requireContext()))
+                        }
+                        studentProfile.role == "teacher" -> {
+                            startActivity(MainMenuActivity.newIntent(requireContext()))
+                        }
+                        else -> {
+                            Toast.makeText(requireContext(), "Неизвестная роль пользователя", Toast.LENGTH_SHORT).show()
+                            return@launch
+                        }
                     }
-                    if (studentProfile.role == "student") {
-                        startActivity(
-                            MainMenuActivity.newIntent(
-                                requireContext()
-                            )
-                        )
-                    }
+                    requireActivity().finish() // ← один раз, после перехода
                 }
-            }
-
-                requireActivity().finish(
-                )
-                requireActivity().finish()
             }
         }
         viewModel.errorMessage.observe(viewLifecycleOwner){
