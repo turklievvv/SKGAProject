@@ -14,6 +14,7 @@ import com.example.skga.R
 import com.example.skga.presentation.adminPage.AdminPageActivity
 import com.google.firebase.messaging.FirebaseMessaging
 import data.local.UserSessionManager
+import domain.entity.UserProfile
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -61,7 +62,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun subscribeToFcmTopics(profile: domain.entity.UserProfile) {
+    private fun subscribeToFcmTopics(profile: UserProfile) {
         FirebaseMessaging.getInstance().subscribeToTopic("all_institute")
 
         when {
@@ -77,10 +78,17 @@ class WelcomeScreenActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) Log.d("FCM", "Подписка на факультет ${profile.facultyId}")
                     }
+                val groupTopic = "group_${formatTopicName(profile.group ?: "")}"
+                Log.d("FCM", "Группа из профиля: ${profile.group}")
                 FirebaseMessaging.getInstance()
-                    .subscribeToTopic("group_${profile.group}")
+                    .subscribeToTopic(groupTopic)
                     .addOnCompleteListener { task ->
-                        if (task.isSuccessful) Log.d("FCM", "Подписка на группу ${profile.group}")
+                        if (task.isSuccessful) Log.d("FCM", "Подписка на группу $groupTopic")
+                        if (!task.isSuccessful) Log.e("FCM", "Ошибка подписки: ${task.exception?.message}")
+                    }
+                FirebaseMessaging.getInstance().subscribeToTopic("all_institute")
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) Log.d("FCM", "Подписка на весь институт")
                     }
             }
         }

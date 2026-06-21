@@ -29,6 +29,9 @@ class TeacherAddEditViewModel(private val application: Application) :
     val allFaculties: LiveData<List<FacultyItem>>
         get() = _allFaculties
 
+    private val _inviteResult = MutableLiveData<Result<Unit>>()
+    val inviteResult: LiveData<Result<Unit>> get() = _inviteResult
+
     fun updateTeacher(profile: UserProfile){
         viewModelScope.launch {
             updateProfile.updateProfile(profile)
@@ -37,7 +40,8 @@ class TeacherAddEditViewModel(private val application: Application) :
 
     fun inviteTeacher(profile: UserProfile){
         viewModelScope.launch {
-            createTeacherProfileUseCase.createProfile(profile)
+            val result = createTeacherProfileUseCase.createProfile(profile)
+            _inviteResult.value = result
         }
     }
 

@@ -12,6 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardColorStripe5"
+            android:layout_width="4dp"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@color/red"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/queueNumber"
             android:layout_width="wrap_content"

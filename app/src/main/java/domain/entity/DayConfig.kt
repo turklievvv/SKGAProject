@@ -8,7 +8,8 @@ data class DayConfig(
     val dateText: String,
     val weekOfYear:Int,
     val weekType:Int,
-    val dayName: String
+    val dayName: String,
+    val dateIso : String
 ) {
     val dayNameShort: String
         get() = when (dayOfWeek) {

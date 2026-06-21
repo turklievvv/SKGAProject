@@ -1,5 +1,6 @@
 package com.example.skga.presentation.adminPage.scheduleManage
 
+import android.app.Activity
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -20,11 +21,11 @@ import domain.entity.ScheduleItem
 import java.util.Calendar
 import java.util.UUID
 
-
 class AddAndEditLessonActivity : AppCompatActivity() {
 
     private val viewModel: AddAndEditLessonViewModel by viewModels()
     lateinit var binding: ActivityAddAndEditLessonBinding
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,9 @@ class AddAndEditLessonActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        bindingAutoCompleteTextViews()
+
         val existingLesson = intent.getParcelableExtra(SCHEDULE_ITEM, ScheduleItem::class.java)
         if (existingLesson != null) {
             viewModel.setEditMode(true)
@@ -46,7 +50,7 @@ class AddAndEditLessonActivity : AppCompatActivity() {
         }
 
         binding.saveBtn.setOnClickListener {
-            val lesson = getLessonFromForm() ?: return@setOnClickListener
+            val lesson = getLessonFromForm(existingLesson) ?: return@setOnClickListener
             viewModel.saveLesson(lesson)
         }
 
@@ -57,6 +61,10 @@ class AddAndEditLessonActivity : AppCompatActivity() {
         viewModel.saveResult.observe(this) { result ->
             if (result.isSuccess) {
                 Toast.makeText(this, "Занятие сохранено", Toast.LENGTH_SHORT).show()
+                val resultIntent = Intent().apply {
+                    putExtra(EXTRA_GROUP_ID, binding.groupAutoCompleteTextView.text.toString())
+                }
+                setResult(Activity.RESULT_OK,resultIntent)
                 finish()
             } else {
                 Toast.makeText(
@@ -66,28 +74,26 @@ class AddAndEditLessonActivity : AppCompatActivity() {
                 ).show()
             }
         }
-
-        bindingAutoCompleteTextViews()
     }
 
     private fun fillForm(lesson: ScheduleItem) {
         val days = resources.getStringArray(R.array.days_of_week)
-        binding.dayOfWeekAutoCompleteTV.setText(days.getOrNull(lesson.dayOfWeek - 1) ?: "")
+        // ИСПРАВЛЕНИЕ 4: Добавлен параметр false, чтобы не фильтровать выпадающие списки при инициализации
+        binding.dayOfWeekAutoCompleteTV.setText(days.getOrNull(lesson.dayOfWeek - 1) ?: "", false)
         binding.lessonNameET.setText(lesson.lessonName)
         binding.lessonNumberET.setText(lesson.lessonNumber.toString())
         binding.lessonRoomET.setText(lesson.lessonClassRoom)
         binding.lessonStartTimeET.setText(lesson.lessonStartTime)
         binding.lessonEndTimeET.setText(lesson.lessonEndTime)
-        binding.groupAutoCompleteTextView.setText(lesson.group)
+        binding.groupAutoCompleteTextView.setText(lesson.group, false)
+        binding.lessonTeacherAutoCompleteTV.setText(lesson.lessonTeacherFullName, false)
 
         val weekTypes = resources.getStringArray(R.array.week_type)
-        binding.weekTypeAutoCompleteTV.setText(weekTypes.getOrNull(lesson.weekType) ?: "")
+        binding.weekTypeAutoCompleteTV.setText(weekTypes.getOrNull(lesson.weekType) ?: "", false)
 
         val subgroups = resources.getStringArray(R.array.subgroup_list)
-        binding.subgroupAutoCompleteTV.setText(subgroups.getOrNull(lesson.subGroup) ?: "")
+        binding.subgroupAutoCompleteTV.setText(subgroups.getOrNull(lesson.subGroup) ?: "", false)
     }
-
-
 
     private fun bindingAutoCompleteTextViews() {
         val days = resources.getStringArray(R.array.days_of_week)
@@ -113,8 +119,8 @@ class AddAndEditLessonActivity : AppCompatActivity() {
 
         viewModel.loadTeachers()
         viewModel.teacherList.observe(this) {
-            val teacherNames = it.map {
-                "${it.lastName} ${it.firstName} ${it.middleName}"
+            val teacherNames = it.map { teacher ->
+                "${teacher.lastName} ${teacher.firstName} ${teacher.middleName}"
             }
             val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, teacherNames)
             binding.lessonTeacherAutoCompleteTV.setAdapter(adapter)
@@ -130,11 +136,11 @@ class AddAndEditLessonActivity : AppCompatActivity() {
         val weekType = resources.getStringArray(R.array.week_type)
         val adapterWeekType = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, weekType)
         binding.weekTypeAutoCompleteTV.setAdapter(adapterWeekType)
-        binding.subgroupAutoCompleteTV.setOnClickListener {
-            binding.subgroupAutoCompleteTV.showDropDown()
+
+        // ИСПРАВЛЕНИЕ 3: Исправлена опечатка (было клик на subgroup вместо weekType)
+        binding.weekTypeAutoCompleteTV.setOnClickListener {
+            binding.weekTypeAutoCompleteTV.showDropDown()
         }
-
-
     }
 
     private fun showTimePickerDialog(editText: TextInputEditText) {
@@ -144,8 +150,7 @@ class AddAndEditLessonActivity : AppCompatActivity() {
         val timerPickerDialog = TimePickerDialog(
             this,
             { _, selectedHour, selectedMinute ->
-                val time =
-                    String.format(java.util.Locale.US, "%02d:%02d", selectedHour, selectedMinute)
+                val time = String.format(java.util.Locale.US, "%02d:%02d", selectedHour, selectedMinute)
                 editText.setText(time)
             },
             hour,
@@ -155,7 +160,7 @@ class AddAndEditLessonActivity : AppCompatActivity() {
         timerPickerDialog.show()
     }
 
-    private fun getLessonFromForm(): ScheduleItem? {
+    private fun getLessonFromForm(schedule: ScheduleItem?): ScheduleItem? {
         val dayOfWeekIndex = resources.getStringArray(R.array.days_of_week)
             .indexOf(binding.dayOfWeekAutoCompleteTV.text.toString()) + 1
 
@@ -165,21 +170,42 @@ class AddAndEditLessonActivity : AppCompatActivity() {
         val subgroupIndex = resources.getStringArray(R.array.subgroup_list)
             .indexOf(binding.subgroupAutoCompleteTV.text.toString())
 
+        val selectedTeacherText = binding.lessonTeacherAutoCompleteTV.text.toString()
         val teacher = viewModel.teacherList.value
-            ?.find { "${it.lastName} ${it.firstName} ${it.middleName}" == binding.lessonTeacherAutoCompleteTV.text.toString() }
+            ?.find { "${it.lastName} ${it.firstName} ${it.middleName}" == selectedTeacherText }
 
+        // Проверяем заполнение текстовых полей
         if (binding.lessonNameET.text.isNullOrBlank() ||
             binding.groupAutoCompleteTextView.text.isNullOrBlank() ||
             binding.lessonStartTimeET.text.isNullOrBlank() ||
             binding.lessonEndTimeET.text.isNullOrBlank() ||
-            teacher == null
+            selectedTeacherText.isBlank()
         ) {
             Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
             return null
         }
 
+        // ИСПРАВЛЕНИЕ 2: Безопасное определение ID и имен учителя, если список из сети еще не догрузился
+        val teacherId: String
+        val teacherFullName: String
+        val teacherShortName: String
+
+        if (teacher != null) {
+            teacherId = teacher.id
+            teacherFullName = "${teacher.lastName} ${teacher.firstName} ${teacher.middleName}"
+            teacherShortName = "${teacher.lastName} ${teacher.firstName.firstOrNull()}. ${teacher.middleName.firstOrNull()}."
+        } else if (schedule != null && selectedTeacherText == schedule.lessonTeacherFullName) {
+            // Если мы редактируем и имя совпадает со старым — берем старые ID и имена напрямую из объекта
+            teacherId = schedule.lessonTeacherId
+            teacherFullName = schedule.lessonTeacherFullName
+            teacherShortName = schedule.lessonTeacherShortName
+        } else {
+            Toast.makeText(this, "Выберите преподавателя из списка", Toast.LENGTH_SHORT).show()
+            return null
+        }
+
         return ScheduleItem(
-            id = UUID.randomUUID().toString(),
+            id = schedule?.id ?: UUID.randomUUID().toString(),
             lessonName = binding.lessonNameET.text.toString(),
             lessonNumber = binding.lessonNumberET.text.toString().toIntOrNull() ?: 1,
             lessonClassRoom = binding.lessonRoomET.text.toString(),
@@ -189,15 +215,16 @@ class AddAndEditLessonActivity : AppCompatActivity() {
             group = binding.groupAutoCompleteTextView.text.toString(),
             lessonStartTime = binding.lessonStartTimeET.text.toString(),
             lessonEndTime = binding.lessonEndTimeET.text.toString(),
-            lessonTeacherId = teacher.id,
-            lessonTeacherFullName = "${teacher.lastName} ${teacher.firstName} ${teacher.middleName}",
-            lessonTeacherShortName = "${teacher.lastName} ${teacher.firstName.firstOrNull()}. ${teacher.middleName.firstOrNull()}."
+            lessonTeacherId = teacherId,
+            lessonTeacherFullName = teacherFullName,
+            lessonTeacherShortName = teacherShortName
         )
     }
 
-
     companion object {
         const val SCHEDULE_ITEM = "schedule_item"
+
+        const val EXTRA_GROUP_ID = "extra_group_id"
 
         fun newIntent(context: Context, schedule: ScheduleItem?): Intent {
             val intent = Intent(context, AddAndEditLessonActivity::class.java)
@@ -206,7 +233,5 @@ class AddAndEditLessonActivity : AppCompatActivity() {
             }
             return intent
         }
-
-
     }
 }

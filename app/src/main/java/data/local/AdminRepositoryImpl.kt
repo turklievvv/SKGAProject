@@ -119,33 +119,69 @@ class AdminRepositoryImpl(application: Application) : AdminRepository {
 
     override suspend fun createTeacherProfile(profile: UserProfile): Result<Unit> {
         return runCatching {
-            val adminToken = SupabaseClient.client.auth.currentAccessTokenOrNull()
-                ?: throw Exception("Ошибка авторизации администратора")
+            val adminKey = SupabaseClient.ADMIN_KEY
+            val cleanEmail = profile.email.trim()
 
-            SupabaseClient.client.auth.admin.inviteUserByEmail(
-                email = profile.email,
-                redirectTo = "skga://reset-password"
+            Log.d("REPO_DEBUG", "1. Отправляем инвайт через Retrofit...")
+
+            val inviteResponse = SupabaseClient.api.inviteUser(
+                apiKey = adminKey,
+                token = "Bearer $adminKey",
+                body = mapOf(
+                    "email" to cleanEmail,
+                    "redirectTo" to "skga://reset-password"
+                )
             )
 
+            Log.d("REPO_DEBUG", "Код ответа Auth: ${inviteResponse.code()}")
+
+            if (!inviteResponse.isSuccessful) {
+                val authError = inviteResponse.errorBody()?.string()
+                throw Exception("Supabase Auth вернул ошибку, код: ${inviteResponse.code()}. Тело: $authError")
+            }
+
+            // 2. Читаем строку ответа из ResponseBody (метод .string() можно вызвать только ОДИН раз!)
+            val responseString = inviteResponse.body()?.string() ?: ""
+            Log.d("REPO_DEBUG", "Ответ сервера Auth: $responseString")
+
+            if (responseString.isBlank()) {
+                throw Exception("Сервер вернул пустой ответ")
+            }
+
+            // Парсим JSON и забираем настоящий UUID пользователя
+            val jsonObject = org.json.JSONObject(responseString)
+            val serverUserId = jsonObject.getString("id")
+            Log.d("REPO_DEBUG", "Успешно получен ID от сервера: $serverUserId")
+
+            // 3. Маппим DTO, подставляя НАСТОЯЩИЙ ID от сервера
             val profileDto = map.mapTeacherEntityToProfileDto(
                 profile,
-                profile.id,
+                serverUserId,
                 profile.facultyId ?: 1
             )
 
-            SupabaseClient.api.createProfile(
-                apiKey = SupabaseClient.API_KEY,
-                token = "Bearer $adminToken",
+            Log.d("REPO_DEBUG", "3. Записываем в pending_profiles...")
+
+            // 4. Пишем в таблицу базы данных
+            val dbResponse = SupabaseClient.api.createPendingProfile(
+                apiKey = adminKey,
+                token = "Bearer $adminKey",
                 profile = profileDto
             )
 
+            if (!dbResponse.isSuccessful) {
+                val errorBody = dbResponse.errorBody()?.string()
+                throw Exception("Ошибка записи в pending_profiles: $errorBody")
+            }
+
             clearTeachersCache()
+            Log.d("REPO_DEBUG", "Готово! Учитель успешно создан и ожидает регистрации.")
             Unit
-        }.onFailure {
-            Log.e("REPO_ERROR", "Ошибка при создании учителя: ${it.message}")
+        }.onFailure { throwable ->
+            if (throwable is kotlinx.coroutines.CancellationException) throw throwable
+            Log.e("REPO_ERROR", "Ошибка при создании учителя: ${throwable.message}")
         }
     }
-
     override suspend fun getEventsList(): Result<List<EventItem>> {
         return try {
             val currentToken = supabaseClient.client.auth.currentAccessTokenOrNull()
@@ -222,8 +258,14 @@ class AdminRepositoryImpl(application: Application) : AdminRepository {
                 lesson = map.mapScheduleEntityToDto(lesson)
             )
             Log.d("REPO_DEBUG", "Код ответа сервера: ${response.code()}")
-            if (!response.isSuccessful) {
-                throw Exception("Код ошибки: ${response.code()}")
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()?.string()
+                Log.d("REPO_DEBUG", "Что на самом деле ответила база: $responseBody")
+
+                if (responseBody == "[]" || responseBody.isNullOrBlank()) {
+                    Log.e("REPO_ERROR", "Внимание: Обновлено 0 строк! Проверь RLS или существование ID в базе.")
+                }
             }
         }.onFailure {
             Log.e("REPO_ERROR", "Ошибка при обновлении урока: ${it.message}")

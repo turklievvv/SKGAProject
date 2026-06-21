@@ -2,6 +2,7 @@ package com.example.skga.presentation.adminPage.teacherPage
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -25,6 +27,7 @@ class TeacherAddEditActivity : AppCompatActivity() {
 
     private val viewModel: TeacherAddEditViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -41,25 +44,36 @@ class TeacherAddEditActivity : AppCompatActivity() {
         )
         if (teacherItem == null) {
             binding.sendInviteBtn.visibility = View.VISIBLE
-            binding.saveBtn.visibility = View.INVISIBLE
         } else {
             setInfo(teacherItem)
             binding.sendInviteBtn.visibility = View.INVISIBLE
-            binding.saveBtn.visibility = View.VISIBLE
         }
         viewModel.getFaculties()
         addGroupAdapter()
         binding.sendInviteBtn.setOnClickListener {
             val teacherProfile = getProfile()
-            viewModel.inviteTeacher(
-                teacherProfile
-            )
-            Toast.makeText(
-                this,
-                "Отправлено приглашения для ${teacherProfile.lastName} ${teacherProfile.firstName}",
-                Toast.LENGTH_SHORT
-            ).show()
-            finish()
+
+            binding.sendInviteBtn.isEnabled = false
+
+            viewModel.inviteTeacher(teacherProfile)
+        }
+
+        viewModel.inviteResult.observe(this) { result ->
+            result.onSuccess {
+                Toast.makeText(
+                    this,
+                    "Приглашение успешно отправлено!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish() // Закрываем экран ТОЛЬКО после успешного ответа сервера!
+            }.onFailure { exception ->
+                binding.sendInviteBtn.isEnabled = true // Разблокируем кнопку для повторной попытки
+                Toast.makeText(
+                    this,
+                    "Ошибка: ${exception.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

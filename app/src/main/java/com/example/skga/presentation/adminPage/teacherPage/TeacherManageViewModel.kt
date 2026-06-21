@@ -38,6 +38,9 @@ class TeacherManageViewModel(application: Application) : AndroidViewModel(applic
     val teacherItemList: LiveData<List<TeacherItem>>
         get() = _teacherItemList
 
+    private val _isError = MutableLiveData<Boolean>(false)
+    val isError: LiveData<Boolean> get() = _isError
+
     val searchQuery = MutableLiveData("")
     private var allLessons: List<ScheduleItem> = emptyList()
 
@@ -121,7 +124,7 @@ class TeacherManageViewModel(application: Application) : AndroidViewModel(applic
 
     private fun loadInitialData() {
         viewModelScope.launch(exceptionHandler) {
-            _isLoading.value = true // Включаем полоску загрузки сверху
+            _isLoading.value = true
             try {
                 val lessonsResult = getAllLessonsUseCase.getAllLessons()
                 allLessons = lessonsResult.getOrNull() ?: emptyList()
@@ -129,12 +132,13 @@ class TeacherManageViewModel(application: Application) : AndroidViewModel(applic
 
                 if (allTeachers != null && allLessons.isNotEmpty()) {
                     getTeacherList()
+                    _isError.value = false // ← успех
                     _isLoading.value = false
                 } else {
                     throw Exception("Empty data")
                 }
-
             } catch (e: Exception) {
+                _isError.value = true // ← только здесь ошибка
                 _isLoading.value = false
                 delay(10000)
                 loadInitialData()

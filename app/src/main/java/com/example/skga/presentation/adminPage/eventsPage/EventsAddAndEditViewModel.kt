@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.skga.presentation.formatTopicName
 import data.api.FcmMessageContainer
 import data.api.FcmMessageDTO
 import data.api.FcmTokenProvider
@@ -86,7 +87,7 @@ class EventsAddAndEditViewModel(private val application: Application) :
             if (result.isSuccess) {
                 sendNotificationToMultipleTargets(
                     facultyIds = eventItem.eventFaculties ?: emptyList(),
-                    groupNames = eventItem.eventGroups ?: emptyList(),
+                    groupNames = eventItem.eventGroups?.map { formatTopicName(it) } ?: emptyList(),
                     isGlobal = eventItem.eventIsGlobal,
                     isTeachers = eventItem.eventIsTeachers,
                     title = "Новое событие ${eventItem.eventName}",

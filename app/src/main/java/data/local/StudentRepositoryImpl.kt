@@ -148,14 +148,19 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
             val currentToken = supabaseClient.client.auth.currentAccessTokenOrNull()
             val student = sessionManager.userProfile.first()
             val group = student?.group ?: return Result.failure(Exception("Группа не найдена"))
-            val facultyId = student.facultyId
-            Log.d("AUTH_DEBUG", "Отправляю токен: Bearer $currentToken")
+            val facultyId =
+                student.facultyId ?: return Result.failure(Exception("Факультет не найден"))
+
             val filter =
-                "or(event_groups.cs.{${group}},event_faculties.cs.{${facultyId}},event_is_global.is.true)"
+                "(event_groups.cs.[\"$group\"],event_faculties.cs.[$facultyId],event_is_global.is.true)"
+
+            Log.d("FILTER_DEBUG", "Фильтр: $filter")
+
             val responseEvents = api.getEvents(
-                SupabaseClient.API_KEY,
-                currentToken ?: "",
-                filter)
+                apiKey = SupabaseClient.API_KEY,
+                token = "Bearer $currentToken",
+                filter = filter
+            )
 
             val item = responseEvents.map { eventsDto -> map.mapEventsDtoToEntity(eventsDto) }
             Result.success(item)
@@ -232,6 +237,7 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
             // 1. Получаем день недели (приводим к Пн=1, Вс=7)
             val calendarDay = calendar.get(Calendar.DAY_OF_WEEK)
             val dayOfWeek = if (calendarDay == Calendar.SUNDAY) 7 else calendarDay - 1
+            val isoFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
             // 2. Определяем тип недели (1 - числитель/нечетная, 2 - знаменатель/четная)
             // В РФ учебные недели обычно привязаны к номеру недели в году
@@ -250,7 +256,8 @@ class StudentRepositoryImpl(application: Application) : StudentRepository {
                     weekType = currentWeekType,
                     dateText = dateFormat.format(date),
                     dayName = shortName,
-                    weekOfYear = weekOfYear
+                    weekOfYear = weekOfYear,
+                    dateIso = isoFormat.format(date)
                 )
             )
 

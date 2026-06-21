@@ -13,7 +13,8 @@ import domain.entity.ScheduleItem
 
 class ScheduleManageAdapter(
     private var scheduleList: List<ScheduleItem>,
-    private val shouldHide: Boolean = false
+    private val shouldHide: Boolean = false,
+    private val onLessonClickListener: (ScheduleItem) -> Unit
 ) : RecyclerView.Adapter<ScheduleManageAdapter.ScheduleViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,9 +29,8 @@ class ScheduleManageAdapter(
         holder: ScheduleViewHolder,
         position: Int
     ) {
-        val context = holder.itemView.context
         holder.itemView.setOnClickListener {
-            context.startActivity(AddAndEditLessonActivity.newIntent(context, scheduleList[position]))
+            onLessonClickListener(scheduleList[position])
         }
         holder.lessonName.text = scheduleList[position].lessonName
         holder.lessonTime.text = "${scheduleList[position].lessonStartTime}-${scheduleList[position].lessonEndTime}"

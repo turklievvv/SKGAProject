@@ -163,7 +163,9 @@ class Mapper {
             lessonEndTime = item.lessonEndTime,
             subGroup = item.subGroup,
             teacherId = item.lessonTeacherId,
-            group = item.group
+            group = item.group,
+            teacherFullName = item.lessonTeacherFullName,
+            teacherShortName = item.lessonTeacherShortName
         )
     }
 

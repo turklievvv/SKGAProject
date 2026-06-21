@@ -1,7 +1,6 @@
 package com.example.skga.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,8 +68,15 @@ class LogInFragment : Fragment() {
                 }
             }
         }
-        viewModel.errorMessage.observe(viewLifecycleOwner){
-            Log.d("Error message", it)
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
+            if (message.isNotBlank()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Неверный логин или пароль",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
         bindingViews()
         resetError()

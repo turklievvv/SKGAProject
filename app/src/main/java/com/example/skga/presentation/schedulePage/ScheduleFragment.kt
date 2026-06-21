@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.skga.databinding.FragmentScheduleBinding
 import com.example.skga.presentation.homePage.ViewPagerAdapter
+import domain.entity.EventItem
+import domain.entity.ScheduleItem
 
 
 class ScheduleFragment : Fragment() {
@@ -29,16 +31,33 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadData()
-        val recyclerView = binding.recyclerViewScheduleFragment
+        setupObservers()
+    }
+
+    private fun setupObservers() {
         viewModel.scheduleList.observe(viewLifecycleOwner) { lessons ->
             if (lessons != null) {
-                val adapter = DayAdapter(
-                    viewModel.daysList,
-                    lessons
-                )
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                recyclerView.adapter = adapter
+                updateViewPager(lessons, viewModel.eventList.value ?: emptyList())
             }
         }
+
+        viewModel.eventList.observe(viewLifecycleOwner) { events ->
+            if (events != null) {
+                updateViewPager(viewModel.scheduleList.value ?: emptyList(), events)
+            }
+        }
+    }
+
+    private fun updateViewPager(lessons: List<ScheduleItem>, events: List<EventItem>) {
+        if (_binding == null) return
+
+        val adapter = ViewPagerAdapter(
+            viewModel.daysList,
+            lessons,
+            events
+        )
+
+        binding.recyclerViewScheduleFragment.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewScheduleFragment.adapter = adapter
     }
 }

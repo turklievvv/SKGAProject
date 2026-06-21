@@ -3,10 +3,12 @@ package com.example.skga.presentation.adminPage.teacherPage
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,6 +24,7 @@ import domain.entity.TeacherItem
 
 class TeacherInfoActivity : AppCompatActivity() {
     lateinit var binding: ActivityTeacherInfoBinding
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -114,6 +117,10 @@ class TeacherInfoActivity : AppCompatActivity() {
             flexWrap = FlexWrap.WRAP
             justifyContent = JustifyContent.FLEX_START
         }
+        binding.teacherLastName.text = teacherItem.userProfile.lastName
+        binding.teacherFirstName.text = teacherItem.userProfile.firstName
+        binding.teacherMiddleName.text = teacherItem.userProfile.middleName
+
         binding.teacherLessonsRV.layoutManager = flexboxLayoutManager
         binding.teacherLessonsRV.adapter =
             TeacherInfoAdapter(teacherItem.teacherLessons.map { it.lessonName })
@@ -125,7 +132,7 @@ class TeacherInfoActivity : AppCompatActivity() {
 
 
         binding.teacherScheduleRV.layoutManager = LinearLayoutManager(this)
-        binding.teacherScheduleRV.adapter = ScheduleManageAdapter(teacherItem.teacherLessons, true)
+        binding.teacherScheduleRV.adapter = ScheduleManageAdapter(teacherItem.teacherLessons, true){}
         binding.TeacherCountOfLessonInCalendar.text = "${teacherItem.teacherLessons.size} занятий"
     }
 

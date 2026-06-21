@@ -1,5 +1,6 @@
 package com.example.skga.presentation.adminPage.scheduleManage
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -37,14 +39,29 @@ class ScheduleManageActivity : AppCompatActivity() {
         bindingGetSchedule()
         bindingToggleGroup()
         bindingBottomMenu()
-
+        val startEditLessonLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val groupId = result?.data?.getStringExtra(AddAndEditLessonActivity.EXTRA_GROUP_ID)
+                if (groupId != null) {
+                    viewModel.getGroupSchedule(groupId, returnCheckedId())
+                } else {
+                    loadCachedSchedule()
+                }
+            }
+        }
         binding.addlessonToSchedule.setOnClickListener {
-            startActivity(Intent(this,AddAndEditLessonActivity::class.java))
+            val intent = AddAndEditLessonActivity.newIntent(this, null)
+            startEditLessonLauncher.launch(intent)
         }
         val recyclerView = binding.recyclerViewScheduleAdmin
         recyclerView.layoutManager = LinearLayoutManager(this)
         viewModel.scheduleList.observe(this) {
-            recyclerView.adapter = ScheduleManageAdapter(it)
+            recyclerView.adapter = ScheduleManageAdapter(it) { clickedLesson ->
+                val intent = AddAndEditLessonActivity.newIntent(this, clickedLesson)
+                startEditLessonLauncher.launch(intent)
+            }
             if (it.isEmpty()) {
                 binding.todayNoHaveLessonsTV.visibility = View.VISIBLE
             } else {
@@ -90,18 +107,7 @@ class ScheduleManageActivity : AppCompatActivity() {
         autoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val group = parent.getItemAtPosition(position).toString()
-                val checkedId = binding.buttonToggleGroup.checkedButtonId
-                val day = when (checkedId) {
-                    R.id.btnMon -> 1
-                    R.id.btnTue -> 2
-                    R.id.btnWed -> 3
-                    R.id.btnThur -> 4
-                    R.id.btnFri -> 5
-                    R.id.btnSatur -> 6
-                    R.id.btnSun -> 7
-                    else -> 1
-                }
-                viewModel.getGroupSchedule(group, day)
+                viewModel.getGroupSchedule(group, returnCheckedId())
             }
     }
 
@@ -160,6 +166,21 @@ class ScheduleManageActivity : AppCompatActivity() {
             adapter.addAll(it)
             adapter.filter.filter(null)
         }
+    }
+
+    private fun returnCheckedId(): Int {
+        val checkedId = binding.buttonToggleGroup.checkedButtonId
+        val day = when (checkedId) {
+            R.id.btnMon -> 1
+            R.id.btnTue -> 2
+            R.id.btnWed -> 3
+            R.id.btnThur -> 4
+            R.id.btnFri -> 5
+            R.id.btnSatur -> 6
+            R.id.btnSun -> 7
+            else -> 1
+        }
+        return day
     }
 
     companion object {

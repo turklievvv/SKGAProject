@@ -3,11 +3,13 @@ package com.example.skga.presentation.adminPage.teacherPage
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,6 +21,8 @@ class TeacherManageActivity : AppCompatActivity() {
 
     private val viewModel: TeacherManageViewModel by viewModels()
     lateinit var binding: ActivityTeacherManageBinding
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTeacherManageBinding.inflate(layoutInflater)
@@ -59,7 +63,10 @@ class TeacherManageActivity : AppCompatActivity() {
         }
         viewModel.isLoading.observe(this) { isLoading ->
             binding.topProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            if (!isLoading) {
+        }
+
+        viewModel.isError.observe(this) { isError ->
+            if (isError) {
                 Toast.makeText(
                     this,
                     "Нет подключения. Повторная попытка через 10 сек...",
